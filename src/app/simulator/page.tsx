@@ -23,7 +23,6 @@ import {
 } from "@/lib/calculations";
 import { Calculator, ArrowLeft, Save, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { ViewModeProvider } from "@/contexts/ViewModeContext";
 
 // Disable static generation - requires client-side context providers
 export const dynamic = "force-dynamic";
@@ -387,9 +386,5 @@ function SimulatorContent() {
 }
 
 export default function SimulatorPage() {
-  return (
-    <ViewModeProvider>
-      <SimulatorContent />
-    </ViewModeProvider>
-  );
+  return <SimulatorContent />;
 }
