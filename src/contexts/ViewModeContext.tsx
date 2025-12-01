@@ -87,12 +87,19 @@ export function ViewModeProvider({
   );
 }
 
+// Default fallback for SSR/prerendering when context is not available
+const defaultViewMode: ViewModeContextType = {
+  mode: "simple",
+  setMode: () => {},
+  toggleMode: () => {},
+  isSimple: true,
+  isAdvanced: false,
+};
+
 export function useViewMode() {
   const context = useContext(ViewModeContext);
-  if (context === undefined) {
-    throw new Error("useViewMode must be used within a ViewModeProvider");
-  }
-  return context;
+  // Return default during SSR/prerendering instead of throwing
+  return context ?? defaultViewMode;
 }
 
 /**
