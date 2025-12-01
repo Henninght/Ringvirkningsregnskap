@@ -20,12 +20,16 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | null>(null);
 
+// No-op fallback for SSR/prerendering when context is not available
+const noopToast: ToastContextType = {
+  showToast: () => {},
+  dismissToast: () => {},
+};
+
 export function useToast() {
   const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error("useToast must be used within a ToastProvider");
-  }
-  return context;
+  // Return no-op during SSR/prerendering instead of throwing
+  return context ?? noopToast;
 }
 
 interface ToastProviderProps {
