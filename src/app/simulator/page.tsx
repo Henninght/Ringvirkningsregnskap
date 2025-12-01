@@ -8,6 +8,8 @@ import { SimulatorSankey } from "@/components/simulator/SimulatorSankey";
 import { SimulatorHistory } from "@/components/simulator/SimulatorHistory";
 import { SimulatorToolbar, KeyboardShortcutsModal } from "@/components/simulator/SimulatorToolbar";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import { useToast } from "@/components/ui/Toast";
 import { useSimulatorHistory, SimulatorSnapshot } from "@/hooks/useSimulatorHistory";
 import {
   RippleConfig,
@@ -30,9 +32,15 @@ const DEFAULT_INPUT: OrganizationInput = {
   averageSalary: 650000,
   operatingResult: 50000000, // 50 mill
   localShare: 0.95,
+  agencyShare: 0.05, // 5% vikarandel
+  fullTimeEquivalent: 0.85, // 85% gjennomsnittlig stillingsprosent
+  turnoverRate: 0.12, // 12% årlig turnover
 };
 
 function SimulatorContent() {
+  // Toast notifications
+  const { showToast } = useToast();
+
   // State for input-verdier
   const [input, setInput] = useState<OrganizationInput>(DEFAULT_INPUT);
   const [config, setConfig] = useState<RippleConfig>(DEFAULT_RIPPLE_CONFIG);
@@ -115,8 +123,9 @@ function SimulatorContent() {
     saveSnapshot(input, config, selectedScenario, displayCalculation, name);
     setHasUnsavedChanges(false);
     setSaveNotification(true);
+    showToast("Beregning lagret i historikk", "success");
     setTimeout(() => setSaveNotification(false), 2000);
-  }, [input, config, selectedScenario, displayCalculation, saveSnapshot]);
+  }, [input, config, selectedScenario, displayCalculation, saveSnapshot, showToast]);
 
   // Undo action
   const handleUndo = useCallback(() => {
@@ -145,26 +154,32 @@ function SimulatorContent() {
     setSelectedScenario(null);
     setShowResetDialog(false);
     setHasUnsavedChanges(false);
-  }, []);
+    showToast("Alle verdier tilbakestilt", "info");
+  }, [showToast]);
 
   // Export results
   const handleExport = useCallback(() => {
-    const data = {
-      timestamp: new Date().toISOString(),
-      input,
-      config,
-      scenario: selectedScenario,
-      results: displayCalculation,
-    };
+    try {
+      const data = {
+        timestamp: new Date().toISOString(),
+        input,
+        config,
+        scenario: selectedScenario,
+        results: displayCalculation,
+      };
 
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `ringvirkninger-${new Date().toISOString().split("T")[0]}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }, [input, config, selectedScenario, displayCalculation]);
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `ringvirkninger-${new Date().toISOString().split("T")[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Beregning eksportert som JSON", "success");
+    } catch (error) {
+      showToast("Kunne ikke eksportere beregning", "error");
+    }
+  }, [input, config, selectedScenario, displayCalculation, showToast]);
 
   // Restore from history
   const handleRestoreSnapshot = useCallback((snapshot: SimulatorSnapshot) => {
@@ -327,19 +342,23 @@ function SimulatorContent() {
 
             {/* Middle column - Visualization */}
             <div className="col-span-5">
-              <SimulatorSankey
-                calculation={displayCalculation}
-                comparison={comparison}
-              />
+              <ErrorBoundary>
+                <SimulatorSankey
+                  calculation={displayCalculation}
+                  comparison={comparison}
+                />
+              </ErrorBoundary>
             </div>
 
             {/* Right column - Results */}
             <div className="col-span-4">
-              <SimulatorResults
-                calculation={displayCalculation}
-                comparison={comparison}
-                selectedScenario={selectedScenario}
-              />
+              <ErrorBoundary>
+                <SimulatorResults
+                  calculation={displayCalculation}
+                  comparison={comparison}
+                  selectedScenario={selectedScenario}
+                />
+              </ErrorBoundary>
             </div>
           </div>
         </div>
