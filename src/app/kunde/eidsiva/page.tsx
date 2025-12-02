@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { InsightsPanel } from "@/components/layout/InsightsPanel";
 import { KpiCard } from "@/components/dashboard/KpiCard";
@@ -11,11 +12,20 @@ import { Zap, Leaf, Heart } from "lucide-react";
 
 // Eidsiva-spesifikke komponenter
 import { EidsivaSankey } from "@/components/eidsiva/EidsivaSankey";
+import { TilsvarerGrid } from "@/components/eidsiva/TilsvarerGrid";
 import { EIDSIVA_NOKKELTALL, KILDER } from "@/lib/eidsiva/eidsivaData";
+import { KPI_EXPANSION_DATA } from "@/lib/eidsiva/kpiExpansionData";
 import { InfoTooltip } from "@/components/ui/InfoTooltip";
 import { EIDSIVA_DESCRIPTIONS } from "@/lib/eidsiva/eidsivaDescriptions";
 
 export default function EidsivaDashboard() {
+  // State for managing card expansion
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+
+  const handleCardToggle = (cardId: string) => {
+    setExpandedCard((prev) => (prev === cardId ? null : cardId));
+  };
+
   // Eidsiva-spesifikke KPI-verdier
   const eidsivaKpis = {
     vannkraft: {
@@ -95,6 +105,9 @@ export default function EidsivaDashboard() {
               icon={<Zap size={18} />}
               delay={0}
               kilde={KILDER.fornybarEnergi}
+              expandable={true}
+              isExpanded={expandedCard === "vannkraft"}
+              onExpandToggle={() => handleCardToggle("vannkraft")}
             />
             <KpiCard
               title="Biokraft & fjernvarme"
@@ -106,6 +119,9 @@ export default function EidsivaDashboard() {
               icon={<Leaf size={18} />}
               delay={0.05}
               kilde={KILDER.fornybarEnergi}
+              expandable={true}
+              isExpanded={expandedCard === "biokraft"}
+              onExpandToggle={() => handleCardToggle("biokraft")}
             />
             <KpiCard
               title="Strømforsyning"
@@ -116,8 +132,38 @@ export default function EidsivaDashboard() {
               icon={<Heart size={18} />}
               delay={0.1}
               kilde={KILDER.fornybarEnergi}
+              expandable={true}
+              isExpanded={expandedCard === "stromforsyning"}
+              onExpandToggle={() => handleCardToggle("stromforsyning")}
             />
           </div>
+
+          {/* Full-width Expansion Panel */}
+          {expandedCard && (
+            <div className="mt-4 p-6 bg-white rounded-xl border border-slate-200 shadow-card animate-fade-in">
+              {expandedCard === "vannkraft" && (
+                <TilsvarerGrid
+                  metrics={KPI_EXPANSION_DATA.vannkraft.metrics}
+                  variant="petrol"
+                  title={KPI_EXPANSION_DATA.vannkraft.title}
+                />
+              )}
+              {expandedCard === "biokraft" && (
+                <TilsvarerGrid
+                  metrics={KPI_EXPANSION_DATA.biokraft.metrics}
+                  variant="sage"
+                  title={KPI_EXPANSION_DATA.biokraft.title}
+                />
+              )}
+              {expandedCard === "stromforsyning" && (
+                <TilsvarerGrid
+                  metrics={KPI_EXPANSION_DATA.stromforsyning.metrics}
+                  variant="indigo"
+                  title={KPI_EXPANSION_DATA.stromforsyning.title}
+                />
+              )}
+            </div>
+          )}
         </div>
 
         {/* Sankey Diagram - Eidsiva-spesifikk */}

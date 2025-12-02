@@ -18,6 +18,10 @@ interface KpiCardProps {
   delay?: number;
   changeLabel?: string; // Custom label instead of "%"
   kilde?: KildeRef; // Kildehenvisning til rapport
+  // Expansion props (optional, Eidsiva-specific)
+  expandable?: boolean;
+  isExpanded?: boolean;
+  onExpandToggle?: () => void;
 }
 
 const variantConfig: Record<
@@ -71,6 +75,9 @@ export function KpiCard({
   delay = 0,
   changeLabel,
   kilde,
+  expandable = false,
+  isExpanded = false,
+  onExpandToggle,
 }: KpiCardProps) {
   const config = variantConfig[variant];
   const isPositive = change >= 0;
@@ -134,12 +141,27 @@ export function KpiCard({
           <span>{isPositive ? "+" : ""}{change}{changeLabel ? ` ${changeLabel}` : "%"}</span>
         </div>
 
-        <button
-          className="p-1.5 rounded-md text-slate-300 group-hover:text-slate-500 hover:bg-slate-100 transition-all opacity-0 group-hover:opacity-100"
-          aria-label="Se detaljer"
-        >
-          <ArrowRight size={14} />
-        </button>
+        {expandable && (
+          <button
+            className={cn(
+              "p-1.5 rounded-md transition-all hover:bg-slate-100",
+              isExpanded
+                ? `${config.valueColor} opacity-100`
+                : "text-slate-300 group-hover:text-slate-500 opacity-0 group-hover:opacity-100 md:opacity-0 md:group-hover:opacity-100"
+            )}
+            aria-label={isExpanded ? "Skjul detaljer" : "Se detaljer"}
+            aria-expanded={isExpanded}
+            onClick={onExpandToggle}
+          >
+            <ArrowRight
+              size={14}
+              className={cn(
+                "transition-transform duration-300",
+                isExpanded && "rotate-90"
+              )}
+            />
+          </button>
+        )}
       </div>
     </div>
   );

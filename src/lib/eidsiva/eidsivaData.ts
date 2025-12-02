@@ -311,7 +311,10 @@ export const EIDSIVA_NOKKELTALL = {
   vannkraftTilsvarer: {
     husholdninger: 394904,
     innbyggere: 833248,
+    co2BesparelseTonn: 1360000,
     elbilladinger: 379669320,
+    elTogKm: 746089049,
+    elBussKm: 3899371069,
     idrettshaller: 348424,
     sykehus: 191,
     grunnskoler: 11388,
@@ -321,6 +324,7 @@ export const EIDSIVA_NOKKELTALL = {
   biokraftTilsvarer: {
     husholdninger: 30829,
     innbyggere: 65182,
+    co2BesparelseTonn: 1364000,
     idrettshallerVarme: 800,
     svommehallerVarme: 190,
     skolerVarme: 1212,
