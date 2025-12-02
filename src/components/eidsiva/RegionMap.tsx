@@ -132,6 +132,7 @@ interface RegionMapProps {
   onRegionSelect?: (region: Region | null) => void;
   selectedRegionId?: string | null;
   showValues?: boolean;
+  showOslo?: boolean; // Vis Oslo-boksen (default: true)
 }
 
 export function RegionMap({
@@ -139,6 +140,7 @@ export function RegionMap({
   onRegionSelect,
   selectedRegionId,
   showValues = true,
+  showOslo = true,
 }: RegionMapProps) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
 
@@ -182,7 +184,7 @@ export function RegionMap({
 
   // Total verdi for alle regioner
   const totalValue =
-    regionsWithData.reduce((sum, r) => sum + r.verdi, 0) + osloWithData.verdi;
+    regionsWithData.reduce((sum, r) => sum + r.verdi, 0) + (showOslo ? osloWithData.verdi : 0);
 
   return (
     <div className="relative w-full">
@@ -202,7 +204,7 @@ export function RegionMap({
               </h3>
               <SourceTooltip kilde={KILDER.regionaltKart} />
             </div>
-            <p className="text-xs text-slate-400">Innlandet + Oslo</p>
+            <p className="text-xs text-slate-400">{showOslo ? "Innlandet + Oslo" : "Innlandet"}</p>
           </div>
         </div>
         {showValues && totalValue > 0 && (
@@ -365,81 +367,83 @@ export function RegionMap({
           </AnimatePresence>
 
           {/* Oslo boks - separat fra Innlandet */}
-          <g transform="translate(275, 300)">
-            {/* Forbindelseslinje */}
-            <path
-              d="M-40 -10 Q -20 10, 0 20"
-              stroke="var(--slate-300)"
-              strokeWidth="1"
-              strokeDasharray="4 2"
-              fill="none"
-            />
+          {showOslo && (
+            <g transform="translate(275, 300)">
+              {/* Forbindelseslinje */}
+              <path
+                d="M-40 -10 Q -20 10, 0 20"
+                stroke="var(--slate-300)"
+                strokeWidth="1"
+                strokeDasharray="4 2"
+                fill="none"
+              />
 
-            {/* Oslo rektangel */}
-            <motion.rect
-              x="0"
-              y="20"
-              width="55"
-              height="45"
-              rx="8"
-              fill={getRegionColor(
-                osloWithData.verdi,
-                hoveredRegion === "oslo",
-                selectedRegionId === "oslo"
-              )}
-              stroke={
-                selectedRegionId === "oslo" ? "var(--petrol-600)" : "white"
-              }
-              strokeWidth={selectedRegionId === "oslo" ? 2.5 : 1.5}
-              className="cursor-pointer"
-              style={{
-                filter: selectedRegionId === "oslo" ? "url(#glow)" : undefined,
-              }}
-              animate={{
-                scale:
-                  hoveredRegion === "oslo" && selectedRegionId !== "oslo"
-                    ? 1.05
-                    : 1,
-              }}
-              transition={{ duration: 0.15 }}
-              onMouseEnter={() => setHoveredRegion("oslo")}
-              onMouseLeave={() => setHoveredRegion(null)}
-              onClick={() => handleRegionClick(osloWithData)}
-            />
+              {/* Oslo rektangel */}
+              <motion.rect
+                x="0"
+                y="20"
+                width="55"
+                height="45"
+                rx="8"
+                fill={getRegionColor(
+                  osloWithData.verdi,
+                  hoveredRegion === "oslo",
+                  selectedRegionId === "oslo"
+                )}
+                stroke={
+                  selectedRegionId === "oslo" ? "var(--petrol-600)" : "white"
+                }
+                strokeWidth={selectedRegionId === "oslo" ? 2.5 : 1.5}
+                className="cursor-pointer"
+                style={{
+                  filter: selectedRegionId === "oslo" ? "url(#glow)" : undefined,
+                }}
+                animate={{
+                  scale:
+                    hoveredRegion === "oslo" && selectedRegionId !== "oslo"
+                      ? 1.05
+                      : 1,
+                }}
+                transition={{ duration: 0.15 }}
+                onMouseEnter={() => setHoveredRegion("oslo")}
+                onMouseLeave={() => setHoveredRegion(null)}
+                onClick={() => handleRegionClick(osloWithData)}
+              />
 
-            {/* Oslo ikon */}
-            <Building2
-              x="18"
-              y="32"
-              size={20}
-              className={`pointer-events-none ${
-                selectedRegionId === "oslo" ? "text-white" : "text-slate-500"
-              }`}
-            />
+              {/* Oslo ikon */}
+              <Building2
+                x="18"
+                y="32"
+                size={20}
+                className={`pointer-events-none ${
+                  selectedRegionId === "oslo" ? "text-white" : "text-slate-500"
+                }`}
+              />
 
-            {/* Oslo label */}
-            <text
-              x="27"
-              y="72"
-              textAnchor="middle"
-              className="text-[10px] font-medium fill-slate-600"
-              style={{ fontFamily: "var(--font-outfit)" }}
-            >
-              Oslo
-            </text>
-
-            {/* Verdi under Oslo */}
-            {osloWithData.verdi > 0 && (
+              {/* Oslo label */}
               <text
                 x="27"
-                y="84"
+                y="72"
                 textAnchor="middle"
-                className="text-[8px] fill-petrol-500"
+                className="text-[10px] font-medium fill-slate-600"
+                style={{ fontFamily: "var(--font-outfit)" }}
               >
-                {formatMNOK(osloWithData.verdi)}
+                Oslo
               </text>
-            )}
-          </g>
+
+              {/* Verdi under Oslo */}
+              {osloWithData.verdi > 0 && (
+                <text
+                  x="27"
+                  y="84"
+                  textAnchor="middle"
+                  className="text-[8px] fill-petrol-500"
+                >
+                  {formatMNOK(osloWithData.verdi)}
+                </text>
+              )}
+            </g>
+          )}
 
           {/* Kompass */}
           <g transform="translate(20, 340)">

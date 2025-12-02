@@ -681,18 +681,20 @@ export default function VerdikartPage() {
           )}
         </AnimatePresence>
 
-        {/* Hovedinnhold - 2 kolonner */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* Venstre: Kart (3/5) */}
-          <div className="lg:col-span-3">
-            <Card className="h-full">
-              <CardContent className="p-6">
-                <RegionMap
-                  regionData={regionData}
-                  selectedRegionId={selectedRegion?.id || null}
-                  onRegionSelect={handleRegionSelect}
-                  showValues={true}
-                />
+        {/* Hovedinnhold - 2 kolonner (kun Innlandet har kart) */}
+        <div className={`grid grid-cols-1 gap-6 ${activeTab === "innlandet" ? "lg:grid-cols-5" : ""}`}>
+          {/* Venstre: Kart (3/5) - kun på Innlandet-fanen */}
+          {activeTab === "innlandet" && (
+            <div className="lg:col-span-3">
+              <Card className="h-full">
+                <CardContent className="p-6">
+                  <RegionMap
+                    regionData={regionData}
+                    selectedRegionId={selectedRegion?.id || null}
+                    onRegionSelect={handleRegionSelect}
+                    showValues={true}
+                    showOslo={false}
+                  />
 
                 {/* Valgt region info under kartet */}
                 <AnimatePresence>
@@ -743,9 +745,10 @@ export default function VerdikartPage() {
               </CardContent>
             </Card>
           </div>
+          )}
 
-          {/* Høyre: Velferdskalkulator (2/5) */}
-          <div className="lg:col-span-2">
+          {/* Høyre: Velferdskalkulator (2/5 på Innlandet, full bredde på Oslo) */}
+          <div className={activeTab === "innlandet" ? "lg:col-span-2" : ""}>
             <Card className="h-full">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
