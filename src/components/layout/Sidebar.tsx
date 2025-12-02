@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard,
-  Scale,
+  Wrench,
   Map,
   LogOut,
   Cog,
@@ -28,8 +28,8 @@ const NSF_NAV_ITEMS: NavItem[] = [
     href: "/kunde/nsf",
   },
   {
-    icon: <Scale size={20} />,
-    label: "Politikk",
+    icon: <Wrench size={20} />,
+    label: "Verktøy",
     href: "/kunde/nsf/politikk",
   },
   {
@@ -49,12 +49,17 @@ const NSF_NAV_ITEMS: NavItem[] = [
   },
 ];
 
-// Eidsiva-spesifikke navigasjonspunkter (kun dashboard foreløpig)
+// Eidsiva-spesifikke navigasjonspunkter
 const EIDSIVA_NAV_ITEMS: NavItem[] = [
   {
     icon: <LayoutDashboard size={20} />,
     label: "Dashboard",
     href: "/kunde/eidsiva",
+  },
+  {
+    icon: <Map size={20} />,
+    label: "Verdikart",
+    href: "/kunde/eidsiva/verdikart",
   },
 ];
 

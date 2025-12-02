@@ -87,3 +87,5 @@ ui-debug.log
 *.tmp
 *.temp
 Thumbs.db
+.vercel
+.env*.local

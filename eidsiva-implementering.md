@@ -29,32 +29,32 @@
 
 ---
 
-# Fase 2: Verktøy 1 - Regionalt Verdikart
+# Fase 2: Verktøy 1 - Regionalt Verdikart ✅
 
 **Inspirasjon**: Rapport side 7-8
 
 ## 2.1 Kartkomponent
 | Oppgave | Status |
 |---------|--------|
-| Opprett `RegionMap.tsx` - SVG-kart over Innlandet | ⬜ |
-| Implementer 11 klikkbare regioner | ⬜ |
-| Legg til Oslo-boks | ⬜ |
-| Hover-effekter og fargekoding basert på verdi | ⬜ |
+| Opprett `RegionMap.tsx` - SVG-kart over Innlandet | ✅ |
+| Implementer 11 klikkbare regioner | ✅ |
+| Legg til Oslo-boks | ✅ |
+| Hover-effekter og fargekoding basert på verdi | ✅ |
 
 ## 2.2 Velferdskalkulator
 | Oppgave | Status |
 |---------|--------|
-| Opprett `WelfareCalculator.tsx` | ⬜ |
-| Input-felt for total MNOK | ⬜ |
-| Vis konverteringer: sykkelvei, barnehager, sykehjem, lærere, sykepleiere, brannkonstabler | ⬜ |
-| Animerte tall-overganger | ⬜ |
+| Opprett `WelfareCalculator.tsx` | ✅ |
+| Input-felt for total MNOK | ✅ |
+| Vis konverteringer: sykkelvei, barnehager, sykehjem, lærere, sykepleiere, brannkonstabler | ✅ |
+| Animerte tall-overganger | ✅ |
 
 ## 2.3 Side og integrasjon
 | Oppgave | Status |
 |---------|--------|
-| Opprett `/kunde/[tenantId]/verdikart/page.tsx` | ⬜ |
-| Input-panel for regionale verdier | ⬜ |
-| Koble kart + kalkulator sammen | ⬜ |
+| Opprett `/kunde/eidsiva/verdikart/page.tsx` | ✅ |
+| Input-panel for regionale verdier | ✅ |
+| Koble kart + kalkulator sammen | ✅ |
 
 ---
 
@@ -169,10 +169,10 @@
 ## 5.1 Sidebar-oppdatering
 | Oppgave | Status |
 |---------|--------|
-| Legg til "Verdikart" lenke for Eidsiva | ⬜ |
+| Legg til "Verdikart" lenke for Eidsiva | ✅ |
 | Legg til "Kalkulator" lenke for Eidsiva | ⬜ |
 | Legg til "Samfunnsbidrag" lenke for Eidsiva | ⬜ |
-| Tenant-spesifikk navigasjon (kun vises for Eidsiva) | ⬜ |
+| Tenant-spesifikk navigasjon (kun vises for Eidsiva) | ✅ |
 
 ## 5.2 Dashboard-kobling
 | Oppgave | Status |
