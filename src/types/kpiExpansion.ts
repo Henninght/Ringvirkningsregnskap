@@ -2,14 +2,15 @@ import type { KildeRef } from "@/components/ui/SourceTooltip";
 
 export interface TilsvarerMetric {
   label: string;
-  value: number;
+  value: number | string;
   unit?: string;
   icon?: string; // Lucide icon name
-  category?: "people" | "infrastructure" | "environment" | "transport";
+  category?: string;
+  kilde?: KildeRef; // Per-metric source reference
 }
 
 export interface KpiExpansionData {
   title: string;
   metrics: TilsvarerMetric[];
-  kilde?: KildeRef;
+  kilde?: KildeRef; // Fallback source for the entire section
 }

@@ -38,11 +38,11 @@ const NSF_INPUT: OrganizationInput = {
   turnoverRate: 0.12,
 };
 
-// Anbefalinger basert pa data
+// Anbefalinger basert på data
 interface Recommendation {
   id: string;
-  priority: "hoy" | "medium" | "lav";
-  category: "beredskap" | "okonomi" | "ansatte";
+  priority: "høy" | "medium" | "lav";
+  category: "beredskap" | "økonomi" | "ansatte";
   title: string;
   description: string;
   impact: string;
@@ -52,44 +52,44 @@ interface Recommendation {
 const RECOMMENDATIONS: Recommendation[] = [
   {
     id: "1",
-    priority: "hoy",
+    priority: "høy",
     category: "beredskap",
     title: "Styrk dekningsgrad i Nord-Norge",
-    description: "Flere kommuner i Nord-Norge har dekningsgrad under 13 per 1000, noe som utgjor en beredskapsrisiko.",
-    impact: "Okt beredskap ved krisesituasjoner, bedre pasientutfall",
-    action: "Iverksett rekrutteringskampanje rettet mot helsearbeidere i sor",
+    description: "Flere kommuner i Nord-Norge har dekningsgrad under 13 per 1000, noe som utgjør en beredskapsrisiko.",
+    impact: "Økt beredskap ved krisesituasjoner, bedre pasientutfall",
+    action: "Iverksett rekrutteringskampanje rettet mot helsearbeidere i sør",
   },
   {
     id: "2",
-    priority: "hoy",
-    category: "okonomi",
+    priority: "høy",
+    category: "økonomi",
     title: "Reduser vikarbruk med 20%",
-    description: "Vikarpremien pa 45% representerer betydelige merkostnader som kunne gatt til fast bemanning.",
-    impact: "Estimert besparelse: 80-120 mill NOK arlig",
-    action: "Forbedre arbeidsvilkar og karrieremuligheter for a beholde fast ansatte",
+    description: "Vikarpremien på 45% representerer betydelige merkostnader som kunne gått til fast bemanning.",
+    impact: "Estimert besparelse: 80-120 mill NOK årlig",
+    action: "Forbedre arbeidsvilkår og karrieremuligheter for å beholde fast ansatte",
   },
   {
     id: "3",
     priority: "medium",
     category: "ansatte",
-    title: "Fokuser pa turnover i mellomstore kommuner",
-    description: "Kommuner med 30-80 000 innbyggere har hoyest turnover blant sykepleiere.",
-    impact: "Lavere opplaringskostnader, bedre kontinuitet i omsorg",
+    title: "Fokuser på turnover i mellomstore kommuner",
+    description: "Kommuner med 30-80 000 innbyggere har høyest turnover blant sykepleiere.",
+    impact: "Lavere opplæringskostnader, bedre kontinuitet i omsorg",
     action: "Tilby mentorordninger og fleksible arbeidsordninger",
   },
   {
     id: "4",
     priority: "lav",
-    category: "okonomi",
-    title: "Optimalisere leverandorkjede",
-    description: "Indirekte ringvirkninger kan okes ved a prioritere lokale leverandorer.",
-    impact: "10-15% okning i lokal verdiskaping",
-    action: "Kartlegg og prioriter leverandorer med norsk produksjon",
+    category: "økonomi",
+    title: "Optimalisere leverandørkjede",
+    description: "Indirekte ringvirkninger kan økes ved å prioritere lokale leverandører.",
+    impact: "10-15% økning i lokal verdiskaping",
+    action: "Kartlegg og prioriter leverandører med norsk produksjon",
   },
 ];
 
 export default function InsightsPage() {
-  const [activeCategory, setActiveCategory] = useState<"alle" | "beredskap" | "okonomi" | "ansatte">("alle");
+  const [activeCategory, setActiveCategory] = useState<"alle" | "beredskap" | "økonomi" | "ansatte">("alle");
 
   // Beregn ringvirkninger for NSF
   const calculation = useMemo(() => {
@@ -106,14 +106,14 @@ export default function InsightsPage() {
     : RECOMMENDATIONS.filter(r => r.category === activeCategory);
 
   const priorityColors = {
-    hoy: { bg: "bg-red-50", border: "border-red-200", text: "text-red-700", badge: "bg-red-100 text-red-700" },
+    høy: { bg: "bg-red-50", border: "border-red-200", text: "text-red-700", badge: "bg-red-100 text-red-700" },
     medium: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-700", badge: "bg-amber-100 text-amber-700" },
     lav: { bg: "bg-blue-50", border: "border-blue-200", text: "text-blue-700", badge: "bg-blue-100 text-blue-700" },
   };
 
   const categoryIcons = {
     beredskap: Shield,
-    okonomi: TrendingUp,
+    økonomi: TrendingUp,
     ansatte: Users,
   };
 
@@ -191,7 +191,7 @@ export default function InsightsPage() {
                       Anbefalinger
                     </CardTitle>
                     <div className="flex gap-1">
-                      {(["alle", "beredskap", "okonomi", "ansatte"] as const).map((cat) => (
+                      {(["alle", "beredskap", "økonomi", "ansatte"] as const).map((cat) => (
                         <button
                           key={cat}
                           onClick={() => setActiveCategory(cat)}
@@ -223,7 +223,7 @@ export default function InsightsPage() {
                             <div className="flex items-center gap-2">
                               <CategoryIcon size={14} className={colors.text} />
                               <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${colors.badge}`}>
-                                {rec.priority === "hoy" ? "Hoy" : rec.priority === "medium" ? "Medium" : "Lav"} prioritet
+                                {rec.priority === "høy" ? "Høy" : rec.priority === "medium" ? "Medium" : "Lav"} prioritet
                               </span>
                             </div>
                           </div>

@@ -57,7 +57,7 @@ const SHORTAGE_2040_PROJECTION: TimeSeriesPoint[] = [
     isProjected: true,
     kildeRef: {
       kildeId: "ssb-fremskriving-2040",
-      spesifikk: "Fremskriving basert pa SSB 2035-tall",
+      spesifikk: "Fremskriving basert på SSB 2035-tall",
     },
   },
 ];
@@ -77,11 +77,11 @@ const SYKEPLEIERLOEFTET_INTERVENTION: InterventionScenario = {
     metricReduction: -15000,
     percentReduction: -50,
     economicSaving: 75000000000, // 75 mrd
-    timeToEffect: "5-10 ar",
+    timeToEffect: "5-10 år",
   },
   policyActions: [
     {
-      action: "650 000 kr grunnlonn for spesialsykepleiere med 10 ars ansiennitet",
+      action: "650 000 kr grunnlønn for spesialsykepleiere med 10 års ansiennitet",
       responsible: "Tariffpartene",
       kildeRef: { kildeId: "nsf-sykepleierloftet", spesifikk: "Krav 1" },
     },
@@ -91,12 +91,12 @@ const SYKEPLEIERLOEFTET_INTERVENTION: InterventionScenario = {
       kildeRef: { kildeId: "nsf-sykepleierloftet", spesifikk: "Krav 3" },
     },
     {
-      action: "Full lonn under videreutdanning",
+      action: "Full lønn under videreutdanning",
       responsible: "Helseforetak",
       kildeRef: { kildeId: "nsf-sykepleierloftet", spesifikk: "Krav 2" },
     },
     {
-      action: "Okt finansiering av sykepleierutdanning",
+      action: "Økt finansiering av sykepleierutdanning",
       responsible: "Regjeringen",
       kildeRef: { kildeId: "nsf-sykepleierloftet", spesifikk: "Krav 8" },
     },
@@ -110,7 +110,7 @@ const SYKEPLEIERLOEFTET_INTERVENTION: InterventionScenario = {
 const DELVIS_TILTAK_INTERVENTION: InterventionScenario = {
   id: "delvis-tiltak",
   name: "Delvis tiltak",
-  description: "Kun lonnsloeft uten strukturelle endringer",
+  description: "Kun lønnsløft uten strukturelle endringer",
   scenarioChanges: {
     salaryChangePercent: 8,
   },
@@ -118,11 +118,11 @@ const DELVIS_TILTAK_INTERVENTION: InterventionScenario = {
     metricReduction: -8000,
     percentReduction: -27,
     economicSaving: 40000000000, // 40 mrd
-    timeToEffect: "5-10 ar",
+    timeToEffect: "5-10 år",
   },
   policyActions: [
     {
-      action: "Lonnsloeft for sykepleiere",
+      action: "Lønnsløft for sykepleiere",
       responsible: "Tariffpartene",
     },
   ],
@@ -135,7 +135,7 @@ export const SHORTAGE_2040_SCENARIO: PolicyScenario = {
 
   title: "Hva koster sykepleiermangelen?",
   subtitle: "30 000 manglende sykepleiere innen 2040",
-  hook: "Uten handling vil Norge mangle 30 000 sykepleiere om 15 ar. Den okonomiske kostnaden overstiger 100 milliarder kroner.",
+  hook: "Uten handling vil Norge mangle 30 000 sykepleiere om 15 år. Den økonomiske kostnaden overstiger 100 milliarder kroner.",
 
   projection: {
     id: "shortage-projection-2040",
@@ -149,13 +149,13 @@ export const SHORTAGE_2040_SCENARIO: PolicyScenario = {
       kildeId: "ssb-fremskriving-2035",
       spesifikk: "SSB Rapport 2019/12: Arbeidsmarkedet for helsepersonell fram mot 2035",
       sitat:
-        "Beregningene viser en underdekning pa 28 000 sykepleiere i 2035",
+        "Beregningene viser en underdekning på 28 000 sykepleiere i 2035",
     },
     confidence: "high",
   },
 
   baselineDescription:
-    "Fortsetter dagens utvikling med hoy turnover, stor vikarbruk og lav heltidsandel",
+    "Fortsetter dagens utvikling med høy turnover, stor vikarbruk og lav heltidsandel",
 
   interventions: [SYKEPLEIERLOEFTET_INTERVENTION, DELVIS_TILTAK_INTERVENTION],
 
@@ -189,12 +189,12 @@ export const SHORTAGE_2040_SCENARIO: PolicyScenario = {
 
 SITUASJONEN I DAG:
 - {{currentShortage}} ubesatte sykepleierstillinger (NAV 2025)
-- 4 milliarder kr arlig til vikarbyraer
+- 4 milliarder kr årlig til vikarbyråer
 - 16% av sykepleiere jobber utenfor direkte pasientarbeid
 
 PROGNOSE UTEN HANDLING:
 - {{targetYear}}: {{targetValue}} manglende sykepleiere
-- Okonomisk tap: {{baselineCost}} mrd kr (2024-{{targetYear}})
+- Økonomisk tap: {{baselineCost}} mrd kr (2024-{{targetYear}})
 
 MED SYKEPLEIERLOEFTET:
 - Mangel reduseres til {{reducedShortage}}
@@ -207,7 +207,7 @@ KILDER:
     {
       format: "social_media",
       template:
-        "Norge vil mangle {{targetValue}} sykepleiere i {{targetYear}}. Kostnaden? Over {{totalCost}} milliarder kr. Loesningen finnes. #Sykepleierloeftet #helsepolitikk",
+        "Norge vil mangle {{targetValue}} sykepleiere i {{targetYear}}. Kostnaden? Over {{totalCost}} milliarder kr. Løsningen finnes. #Sykepleierløftet #helsepolitikk",
     },
   ],
 
@@ -227,7 +227,7 @@ const AGENCY_COST_PROJECTION: TimeSeriesPoint[] = [
     isProjected: false,
     kildeRef: {
       kildeId: "nsf-vikar-36mrd",
-      spesifikk: "Baseline-ar for sammenligning",
+      spesifikk: "Baseline-år for sammenligning",
     },
   },
   {
@@ -236,7 +236,7 @@ const AGENCY_COST_PROJECTION: TimeSeriesPoint[] = [
     isProjected: false,
     kildeRef: {
       kildeId: "nsf-vikar-36mrd",
-      spesifikk: "Kommunenes vikarutgifter for okning",
+      spesifikk: "Kommunenes vikarutgifter før økning",
     },
   },
   {
@@ -245,7 +245,7 @@ const AGENCY_COST_PROJECTION: TimeSeriesPoint[] = [
     isProjected: false,
     kildeRef: {
       kildeId: "nsf-vikar-36mrd",
-      spesifikk: "49.7% okning fra 2021",
+      spesifikk: "49.7% økning fra 2021",
     },
   },
   {
@@ -263,7 +263,7 @@ const AGENCY_COST_PROJECTION: TimeSeriesPoint[] = [
     isProjected: true,
     kildeRef: {
       kildeId: "nsf-vikar-firedoblet",
-      spesifikk: "Estimert basert pa trend",
+      spesifikk: "Estimert basert på trend",
     },
   },
   {
@@ -281,7 +281,7 @@ const ERSTATT_VIKARER_INTERVENTION: InterventionScenario = {
   id: "erstatt-vikarer",
   name: "Erstatt vikarer med faste stillinger",
   description:
-    "Halvere vikarandelen ved a ansette fast. Koster mer i lonn, men sparer 2.5x pa vikarkostnader.",
+    "Halvere vikarandelen ved å ansette fast. Koster mer i lønn, men sparer 2.5x på vikarkostnader.",
   scenarioChanges: {
     agencyShareChange: -0.10,
     employeeChange: 2000, // Netto nye faste stillinger
@@ -289,16 +289,16 @@ const ERSTATT_VIKARER_INTERVENTION: InterventionScenario = {
   expectedImpact: {
     metricReduction: -2000000000, // 2 mrd mindre til vikar
     percentReduction: -50,
-    economicSaving: 15000000000, // 15 mrd over 10 ar
-    timeToEffect: "2-3 ar",
+    economicSaving: 15000000000, // 15 mrd over 10 år
+    timeToEffect: "2-3 år",
   },
   policyActions: [
     {
-      action: "Overfore vikarbudsjett til faste stillinger",
+      action: "Overføre vikarbudsjett til faste stillinger",
       responsible: "Kommunene",
     },
     {
-      action: "Overfore vikarbudsjett til faste stillinger",
+      action: "Overføre vikarbudsjett til faste stillinger",
       responsible: "Helseforetak",
     },
     {
@@ -315,24 +315,24 @@ const ERSTATT_VIKARER_INTERVENTION: InterventionScenario = {
 
 const BEGRENS_VIKARBYRA_INTERVENTION: InterventionScenario = {
   id: "begrens-vikarbyra",
-  name: "Reguler vikarbyraer",
-  description: "Innfor pristak og begrensninger pa vikarbyrabruk",
+  name: "Reguler vikarbyråer",
+  description: "Innfør pristak og begrensninger på vikarbyråbruk",
   scenarioChanges: {
     agencyShareChange: -0.05,
   },
   expectedImpact: {
     metricReduction: -1000000000, // 1 mrd mindre
     percentReduction: -25,
-    economicSaving: 8000000000, // 8 mrd over 10 ar
-    timeToEffect: "1-2 ar",
+    economicSaving: 8000000000, // 8 mrd over 10 år
+    timeToEffect: "1-2 år",
   },
   policyActions: [
     {
-      action: "Innfore pristak pa vikarbyratjenester",
+      action: "Innføre pristak på vikarbyråtjenester",
       responsible: "Regjeringen",
     },
     {
-      action: "Begrense bruk av vikarbyraer til akutte behov",
+      action: "Begrense bruk av vikarbyråer til akutte behov",
       responsible: "Helseforetak",
     },
   ],
@@ -343,9 +343,9 @@ export const AGENCY_CRISIS_SCENARIO: PolicyScenario = {
   id: "agency-crisis",
   slug: "vikarkostnad-4-milliarder",
 
-  title: "4 milliarder til vikarbyraer",
-  subtitle: "Penger som kunne gatt til faste stillinger",
-  hook: "Norge bruker 4 milliarder kroner arlig pa sykepleiervikarer. Det er 2.5 ganger dyrere enn fast ansettelse - og pengene lekker ut av helsetjenesten.",
+  title: "4 milliarder til vikarbyråer",
+  subtitle: "Penger som kunne gått til faste stillinger",
+  hook: "Norge bruker 4 milliarder kroner årlig på sykepleiervikarer. Det er 2.5 ganger dyrere enn fast ansettelse - og pengene lekker ut av helsetjenesten.",
 
   projection: {
     id: "agency-cost-projection",
@@ -365,7 +365,7 @@ export const AGENCY_CRISIS_SCENARIO: PolicyScenario = {
   },
 
   baselineDescription:
-    "Fortsatt vekst i vikarbruk pga. sykepleiermangel og hoy turnover",
+    "Fortsatt vekst i vikarbruk pga. sykepleiermangel og høy turnover",
 
   interventions: [ERSTATT_VIKARER_INTERVENTION, BEGRENS_VIKARBYRA_INTERVENTION],
 
@@ -387,12 +387,12 @@ export const AGENCY_CRISIS_SCENARIO: PolicyScenario = {
     {
       format: "headline",
       template:
-        "{{currentCost}} milliarder til vikarbyraer - kunne ansatt {{permanentEquivalent}} faste sykepleiere",
+        "{{currentCost}} milliarder til vikarbyråer - kunne ansatt {{permanentEquivalent}} faste sykepleiere",
     },
     {
       format: "elevator_pitch",
       template:
-        "I 2023 brukte norsk helsetjeneste 4 milliarder kroner pa sykepleiervikarer. En vikar koster 2.5 ganger sa mye som en fast ansatt - og mesteparten av pengene gar til byraene, ikke til lokalsamfunnet. Ved a erstatte halvparten av vikarene med faste stillinger kan vi spare {{savings}} milliarder over 10 ar.",
+        "I 2023 brukte norsk helsetjeneste 4 milliarder kroner på sykepleiervikarer. En vikar koster 2.5 ganger så mye som en fast ansatt - og mesteparten av pengene går til byråene, ikke til lokalsamfunnet. Ved å erstatte halvparten av vikarene med faste stillinger kan vi spare {{savings}} milliarder over 10 år.",
     },
     {
       format: "fact_sheet",
@@ -400,17 +400,17 @@ export const AGENCY_CRISIS_SCENARIO: PolicyScenario = {
 
 KOSTNADSUTVIKLING:
 - 2012: 622 mill kr (baseline)
-- 2023: 4 000 mill kr (5x okning!)
+- 2023: 4 000 mill kr (5x økning!)
 - 2030: {{projectedCost}} mill kr (estimat)
 
 HVORFOR ER VIKARER DYRERE?
 - Vikarbyrå tar 2.5x timepris vs fast ansatt
-- Kun 30% av vikarlonn blir i lokalsamfunnet
-- Ingen kontinuitet = darligere kvalitet
+- Kun 30% av vikarlønn blir i lokalsamfunnet
+- Ingen kontinuitet = dårligere kvalitet
 
-LOSNING - ERSTATT MED FASTE:
+LØSNING - ERSTATT MED FASTE:
 - 4 mrd vikar = kunne ansatt ~4700 faste sykepleiere
-- Besparelse: {{savings}} mrd over 10 ar
+- Besparelse: {{savings}} mrd over 10 år
 - Bedre kvalitet, lavere turnover
 
 KILDER:
@@ -419,7 +419,7 @@ KILDER:
     {
       format: "social_media",
       template:
-        "4 MILLIARDER til vikarbyraer i ar. 2.5x dyrere enn fast ansatte. Losningen er enkel: Ansett folk fast. #heltid #sykepleier",
+        "4 MILLIARDER til vikarbyråer i år. 2.5x dyrere enn fast ansatte. Løsningen er enkel: Ansett folk fast. #heltid #sykepleier",
     },
   ],
 
@@ -438,7 +438,7 @@ export const POLICY_SCENARIOS: PolicyScenario[] = [
 ];
 
 /**
- * Hent scenario basert pa ID eller slug
+ * Hent scenario basert på ID eller slug
  */
 export function getPolicyScenarioById(
   idOrSlug: string

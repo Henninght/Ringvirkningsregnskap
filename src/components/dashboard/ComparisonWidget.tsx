@@ -288,7 +288,7 @@ export function ComparisonWidget({
           <p className="text-sm text-slate-700">
             <strong>{municipality1.name}</strong> har{" "}
             {(municipality1.coverageRatio || 0) > (municipality2.coverageRatio || 0) ? (
-              <span className="text-mint-600 font-medium">hoyere</span>
+              <span className="text-mint-600 font-medium">høyere</span>
             ) : (municipality1.coverageRatio || 0) < (municipality2.coverageRatio || 0) ? (
               <span className="text-coral-500 font-medium">lavere</span>
             ) : (

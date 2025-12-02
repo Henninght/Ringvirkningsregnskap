@@ -24,7 +24,7 @@ const sankeyData = {
     { id: "Indirekte effekter", color: "#7a9e7a" },
     { id: "Induserte effekter", color: "#6b74a8" },
 
-    // Destinasjoner (hoyre) - Outcomes
+    // Destinasjoner (høyre) - Outcomes
     { id: "Lønninger", color: "#5c825c" },
     { id: "Leverandører", color: "#8bbfc3" },
     { id: "Skatter", color: "#d9a04a" },

@@ -22,7 +22,9 @@ export const KILDER = {
   // Fase 3: Ringvirkningskalkulator
   forbrukseffekter: { side: 9, seksjon: "Lokal økonomisk vekst" } as KildeRef,
   leverandorer: { side: 10, seksjon: "Bidrag til norsk næringsliv" } as KildeRef,
-  kritiskInfrastruktur: { side: 11, seksjon: "Samfunnskritiske virksomheter" } as KildeRef,
+  kritiskInfrastruktur: { side: 11, seksjon: "Samfunnskritiske virksomheter", beskrivelse: "Sykehus, militærleire, brannstasjoner, politistasjoner, asylmottak" } as KildeRef,
+  nettLeveranse: { side: 11, seksjon: "Strøm- og bredbåndsleveranse", beskrivelse: "Elvia-nettet forsyner over 2 millioner mennesker" } as KildeRef,
+  eierstruktur: { side: 4, seksjon: "Eierstruktur", beskrivelse: "27 kommuner i Innlandet, Oslo kommune, Innlandet fylkeskommune" } as KildeRef,
 
   // Fase 4: Samfunnsbidrag
   breddeidrett: { side: 13, seksjon: "Breddeidrett og foreninger" } as KildeRef,
@@ -42,9 +44,9 @@ export const EIDSIVA_REGIONER = [
   { id: "nord-osterdal", navn: "Nord-Østerdal", verdi: 0 },
   { id: "sor-osterdal", navn: "Sør-Østerdal", verdi: 0 },
   { id: "kongsvinger", navn: "Kongsvinger-regionen", verdi: 0 },
-  { id: "hamar", navn: "Hamarregionen", verdi: 0 },
+  { id: "hamar", navn: "Hamar-regionen", verdi: 0 },
   { id: "lillehammer", navn: "Lillehammer-regionen", verdi: 0 },
-  { id: "gjovik", navn: "Gjøvikregionen", verdi: 0 },
+  { id: "gjovik", navn: "Gjøvik-regionen", verdi: 0 },
   { id: "nord-gudbrandsdal", navn: "Nord-Gudbrandsdal", verdi: 0 },
   { id: "midt-gudbrandsdal", navn: "Midt-Gudbrandsdal", verdi: 0 },
   { id: "valdres", navn: "Valdres", verdi: 0 },
@@ -278,10 +280,21 @@ export const EIDSIVA_NOKKELTALL = {
     husstanderMedBredbånd: 100000, // Rundt 100 000
   },
 
-  // Eierskap
+  // Kritisk infrastruktur (side 11)
+  kritiskInfrastruktur: {
+    sykehus: true,
+    militaerleire: true,
+    brannstasjoner: true,
+    politistasjoner: true,
+    asylmottak: true,
+    beskrivelse: "Sikrer normalfunksjon for liv, helse, trygghet og nasjonal sikkerhet",
+  },
+
+  // Eierskap (side 4)
   eierskap: {
     kommunerInnlandet: 27,
     andreEiere: ["Oslo kommune", "Innlandet fylkeskommune"],
+    geografiskDekning: ["Innlandet", "Oslo"],
   },
 
   // Bærekraft - Vålerenga

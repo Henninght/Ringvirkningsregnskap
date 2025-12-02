@@ -1,7 +1,7 @@
 /**
  * Velferdsbidrag-konverteringer
  *
- * Konverterer NOK til konkrete velferdsenheter ("I andre ord...")
+ * Konverterer NOK til konkrete velferdsenheter ("Med andre ord...")
  * Kilde: Rapport side 8, SSB-statistikk
  */
 

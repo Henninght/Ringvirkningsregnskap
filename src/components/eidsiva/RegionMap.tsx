@@ -70,7 +70,7 @@ const INNLANDET_REGIONS: Region[] = [
   },
   {
     id: "gjovik",
-    navn: "Gjøvikregionen",
+    navn: "Gjøvik-regionen",
     verdi: 0,
     path: "M55 200 L90 190 L95 185 L125 200 L120 240 L85 260 L50 245 L45 215 Z",
     labelX: 85,
@@ -78,7 +78,7 @@ const INNLANDET_REGIONS: Region[] = [
   },
   {
     id: "hamar",
-    navn: "Hamarregionen",
+    navn: "Hamar-regionen",
     verdi: 0,
     path: "M125 200 L165 195 L175 210 L190 250 L160 275 L125 265 L120 240 Z",
     labelX: 150,

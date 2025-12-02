@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import * as LucideIcons from "lucide-react";
+import { SourceTooltip } from "@/components/ui/SourceTooltip";
 import type { TilsvarerMetric } from "@/types/kpiExpansion";
 
 type KpiVariant = "petrol" | "sage" | "indigo" | "sand";
@@ -20,7 +21,10 @@ export function TilsvarerMetric({ metric, variant, index }: TilsvarerMetricProps
     : LucideIcons.Circle;
 
   // Format the metric value with Norwegian locale
-  const formatValue = (value: number) => {
+  const formatValue = (value: number | string) => {
+    if (typeof value === "string") {
+      return { display: value, full: value };
+    }
     if (value >= 1000000) {
       // For very large numbers, show abbreviated with full in tooltip
       return {
@@ -73,11 +77,16 @@ export function TilsvarerMetric({ metric, variant, index }: TilsvarerMetricProps
           {Icon && <Icon size={20} />}
         </div>
         <div className="min-w-0 flex-1">
-          <div
-            className="text-2xl font-bold text-slate-800 tracking-tight"
-            style={{ fontFamily: "var(--font-outfit)" }}
-          >
-            {display}
+          <div className="flex items-center gap-1.5">
+            <div
+              className="text-2xl font-bold text-slate-800 tracking-tight"
+              style={{ fontFamily: "var(--font-outfit)" }}
+            >
+              {display}
+            </div>
+            {metric.kilde && (
+              <SourceTooltip kilde={metric.kilde} size="sm" />
+            )}
           </div>
           <div className="text-sm text-slate-600 mt-0.5">{metric.label}</div>
           {metric.unit && (

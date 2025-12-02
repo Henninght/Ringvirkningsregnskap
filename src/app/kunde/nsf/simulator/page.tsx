@@ -263,7 +263,7 @@ function SimulatorContent() {
                       Ringvirkningssimulator
                     </h1>
                     <p className="text-sm text-slate-500">
-                      Utforsk hvordan endringer pavirker samfunnsokonomien
+                      Utforsk hvordan endringer påvirker samfunnsøkonomien
                     </p>
                   </div>
                 </div>

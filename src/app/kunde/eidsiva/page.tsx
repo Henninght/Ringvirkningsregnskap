@@ -3,20 +3,19 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { InsightsPanel } from "@/components/layout/InsightsPanel";
-import { KpiCard } from "@/components/dashboard/KpiCard";
-import { SectorPieChart } from "@/components/dashboard/SectorPieChart";
-import { HistoricalChart } from "@/components/dashboard/HistoricalChart";
-import { ProjectsTable } from "@/components/dashboard/ProjectsTable";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { Zap, Leaf, Heart } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 // Eidsiva-spesifikke komponenter
 import { EidsivaSankey } from "@/components/eidsiva/EidsivaSankey";
 import { TilsvarerGrid } from "@/components/eidsiva/TilsvarerGrid";
-import { EIDSIVA_NOKKELTALL, KILDER } from "@/lib/eidsiva/eidsivaData";
+import {
+  ProduksjonsKort,
+  InfrastrukturKort,
+  SamfunnsverdiKort,
+} from "@/components/eidsiva/EidsivaKpiCards";
 import { KPI_EXPANSION_DATA } from "@/lib/eidsiva/kpiExpansionData";
 import { InfoTooltip } from "@/components/ui/InfoTooltip";
-import { EIDSIVA_DESCRIPTIONS } from "@/lib/eidsiva/eidsivaDescriptions";
 
 export default function EidsivaDashboard() {
   // State for managing card expansion
@@ -24,22 +23,6 @@ export default function EidsivaDashboard() {
 
   const handleCardToggle = (cardId: string) => {
     setExpandedCard((prev) => (prev === cardId ? null : cardId));
-  };
-
-  // Eidsiva-spesifikke KPI-verdier
-  const eidsivaKpis = {
-    vannkraft: {
-      value: `${(EIDSIVA_NOKKELTALL.vannkraft.produksjonGWh / 1000).toFixed(1)} TWh`,
-      subtitle: `${EIDSIVA_NOKKELTALL.vannkraft.antallKraftverk} vannkraftverk`,
-    },
-    biokraft: {
-      value: `${EIDSIVA_NOKKELTALL.biokraft.produksjonGWh} GWh`,
-      subtitle: `${EIDSIVA_NOKKELTALL.biokraft.antallVarmesentraler} varmesentraler`,
-    },
-    co2: {
-      value: `${((EIDSIVA_NOKKELTALL.vannkraftTilsvarer.husholdninger + EIDSIVA_NOKKELTALL.biokraftTilsvarer.husholdninger) / 1000).toFixed(0)}k`,
-      subtitle: "Husholdninger forsynt",
-    },
   };
 
   return (
@@ -83,83 +66,74 @@ export default function EidsivaDashboard() {
           </div>
         </header>
 
-        {/* KPI Cards - Eidsiva-spesifikke */}
+        {/* KPI Cards - Verdikjede: Produksjon → Distribusjon → Samfunnsverdi */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3">
             <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide">
-              Fornybar energiproduksjon
+              Verdikjede: Produksjon → Distribusjon → Samfunnsverdi
             </h2>
             <InfoTooltip
-              description={EIDSIVA_DESCRIPTIONS.vannkraft}
+              description="Viser hvordan energi flyter fra produksjon, gjennom distribusjon, til samfunnsverdi."
               size="sm"
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <KpiCard
-              title="Fornybar vannkraft"
-              subtitle={eidsivaKpis.vannkraft.subtitle}
-              value={eidsivaKpis.vannkraft.value}
-              change={EIDSIVA_NOKKELTALL.vannkraft.andelAvNorge}
-              changeLabel="av Norges produksjon"
-              variant="petrol"
-              icon={<Zap size={18} />}
+
+          {/* Enhanced KPI Cards with value chain arrows */}
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-2 md:gap-4 items-center">
+            <ProduksjonsKort
+              expandable={true}
+              isExpanded={expandedCard === "produksjon"}
+              onExpandToggle={() => handleCardToggle("produksjon")}
               delay={0}
-              kilde={KILDER.fornybarEnergi}
-              expandable={true}
-              isExpanded={expandedCard === "vannkraft"}
-              onExpandToggle={() => handleCardToggle("vannkraft")}
             />
-            <KpiCard
-              title="Biokraft & fjernvarme"
-              subtitle={eidsivaKpis.biokraft.subtitle}
-              value={eidsivaKpis.biokraft.value}
-              change={EIDSIVA_NOKKELTALL.biokraft.fornybartBrensel}
-              changeLabel="fornybart"
-              variant="sage"
-              icon={<Leaf size={18} />}
-              delay={0.05}
-              kilde={KILDER.fornybarEnergi}
+
+            {/* Arrow 1 */}
+            <div className="hidden md:flex items-center justify-center text-slate-300">
+              <ArrowRight size={24} />
+            </div>
+
+            <InfrastrukturKort
               expandable={true}
-              isExpanded={expandedCard === "biokraft"}
-              onExpandToggle={() => handleCardToggle("biokraft")}
-            />
-            <KpiCard
-              title="Strømforsyning"
-              subtitle={eidsivaKpis.co2.subtitle}
-              value={eidsivaKpis.co2.value}
-              change={0}
-              variant="indigo"
-              icon={<Heart size={18} />}
+              isExpanded={expandedCard === "distribusjon"}
+              onExpandToggle={() => handleCardToggle("distribusjon")}
               delay={0.1}
-              kilde={KILDER.fornybarEnergi}
+            />
+
+            {/* Arrow 2 */}
+            <div className="hidden md:flex items-center justify-center text-slate-300">
+              <ArrowRight size={24} />
+            </div>
+
+            <SamfunnsverdiKort
               expandable={true}
-              isExpanded={expandedCard === "stromforsyning"}
-              onExpandToggle={() => handleCardToggle("stromforsyning")}
+              isExpanded={expandedCard === "samfunnsverdi"}
+              onExpandToggle={() => handleCardToggle("samfunnsverdi")}
+              delay={0.2}
             />
           </div>
 
           {/* Full-width Expansion Panel */}
           {expandedCard && (
             <div className="mt-4 p-6 bg-white rounded-xl border border-slate-200 shadow-card animate-fade-in">
-              {expandedCard === "vannkraft" && (
+              {expandedCard === "produksjon" && (
                 <TilsvarerGrid
-                  metrics={KPI_EXPANSION_DATA.vannkraft.metrics}
+                  metrics={KPI_EXPANSION_DATA.produksjon.metrics}
                   variant="petrol"
-                  title={KPI_EXPANSION_DATA.vannkraft.title}
+                  title={KPI_EXPANSION_DATA.produksjon.title}
                 />
               )}
-              {expandedCard === "biokraft" && (
+              {expandedCard === "distribusjon" && (
                 <TilsvarerGrid
-                  metrics={KPI_EXPANSION_DATA.biokraft.metrics}
+                  metrics={KPI_EXPANSION_DATA.distribusjon.metrics}
                   variant="sage"
-                  title={KPI_EXPANSION_DATA.biokraft.title}
+                  title={KPI_EXPANSION_DATA.distribusjon.title}
                 />
               )}
-              {expandedCard === "stromforsyning" && (
+              {expandedCard === "samfunnsverdi" && (
                 <TilsvarerGrid
-                  metrics={KPI_EXPANSION_DATA.stromforsyning.metrics}
+                  metrics={KPI_EXPANSION_DATA.samfunnsverdi.metrics}
                   variant="indigo"
-                  title={KPI_EXPANSION_DATA.stromforsyning.title}
+                  title={KPI_EXPANSION_DATA.samfunnsverdi.title}
                 />
               )}
             </div>
@@ -171,21 +145,6 @@ export default function EidsivaDashboard() {
           <ErrorBoundary>
             <EidsivaSankey />
           </ErrorBoundary>
-        </div>
-
-        {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-          <ErrorBoundary>
-            <SectorPieChart />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <HistoricalChart />
-          </ErrorBoundary>
-        </div>
-
-        {/* Bottom Row */}
-        <div className="mb-6">
-          <ProjectsTable />
         </div>
       </main>
 

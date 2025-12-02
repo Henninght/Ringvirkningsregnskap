@@ -319,7 +319,7 @@ export function WelfareCalculator({
               <div className="flex items-center gap-2 mb-3">
                 <Info size={16} className="text-petrol-200" />
                 <span className="text-sm font-medium text-petrol-100">
-                  I andre ord...
+                  Med andre ord...
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-4">

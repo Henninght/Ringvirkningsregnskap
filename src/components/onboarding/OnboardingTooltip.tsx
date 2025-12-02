@@ -127,7 +127,7 @@ export function OnboardingTooltip({
                     ? "bg-mint-300"
                     : "bg-slate-200"
                 )}
-                aria-label={`Ga til steg ${index + 1}`}
+                aria-label={`Gå til steg ${index + 1}`}
               />
             ))}
           </div>
@@ -200,16 +200,16 @@ export const mapOnboardingSteps: OnboardingStep[] = [
   {
     id: "welcome",
     title: "Kommunekart",
-    content: "Her kan du utforske geografisk fordeling av sykepleiere og dekningsgrad pa tvers av norske kommuner.",
+    content: "Her kan du utforske geografisk fordeling av sykepleiere og dekningsgrad på tvers av norske kommuner.",
   },
   {
     id: "filters",
     title: "Filtrer visningen",
-    content: "Bruk fylkefiltrene over kartet for a fokusere pa et bestemt omrade. Du kan ogsa bytte mellom ulike metrikker.",
+    content: "Bruk fylkefiltrene over kartet for å fokusere på et bestemt område. Du kan også bytte mellom ulike metrikker.",
   },
   {
     id: "interact",
     title: "Utforsk kommuner",
-    content: "Klikk pa en kommune for a se detaljert informasjon. Storrelse og farge pa sirklene viser relativ verdi for valgt metrikk.",
+    content: "Klikk på en kommune for å se detaljert informasjon. Størrelse og farge på sirklene viser relativ verdi for valgt metrikk.",
   },
 ];

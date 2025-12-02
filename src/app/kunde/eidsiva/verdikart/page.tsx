@@ -755,7 +755,7 @@ export default function VerdikartPage() {
                   <div className="w-8 h-8 rounded-lg bg-sage-100 flex items-center justify-center">
                     <BarChart3 size={16} className="text-sage-600" />
                   </div>
-                  I andre ord...
+                  Med andre ord...
                   <InfoTooltip
                     description={EIDSIVA_DESCRIPTIONS.offentligVelferd}
                     size="sm"
