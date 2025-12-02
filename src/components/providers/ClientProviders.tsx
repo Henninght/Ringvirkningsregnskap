@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { ToastProvider } from "@/components/ui/Toast";
 import { ViewModeProvider } from "@/contexts/ViewModeContext";
+import { TenantProvider } from "@/contexts/TenantContext";
 
 interface ClientProvidersProps {
   children: ReactNode;
@@ -10,8 +11,10 @@ interface ClientProvidersProps {
 
 export function ClientProviders({ children }: ClientProvidersProps) {
   return (
-    <ViewModeProvider>
-      <ToastProvider>{children}</ToastProvider>
-    </ViewModeProvider>
+    <TenantProvider>
+      <ViewModeProvider>
+        <ToastProvider>{children}</ToastProvider>
+      </ViewModeProvider>
+    </TenantProvider>
   );
 }

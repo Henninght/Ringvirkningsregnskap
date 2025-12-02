@@ -234,7 +234,7 @@ function SimulatorContent() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Sidebar />
+      <Sidebar tenantId="nsf" />
 
       {/* Main Content */}
       <main className="ml-[72px] min-h-screen">
@@ -244,7 +244,7 @@ function SimulatorContent() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <Link
-                  href="/"
+                  href="/kunde/nsf"
                   className="flex items-center gap-2 text-slate-500 hover:text-slate-700 transition-colors"
                 >
                   <ArrowLeft size={18} />

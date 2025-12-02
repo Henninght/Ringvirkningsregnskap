@@ -1,101 +1,98 @@
 "use client";
 
-import { Sidebar } from "@/components/layout/Sidebar";
-import { InsightsPanel } from "@/components/layout/InsightsPanel";
-import { KpiCard } from "@/components/dashboard/KpiCard";
-import { SankeyDiagram } from "@/components/dashboard/SankeyDiagram";
-import { SectorPieChart } from "@/components/dashboard/SectorPieChart";
-import { HistoricalChart } from "@/components/dashboard/HistoricalChart";
-import { ProjectsTable } from "@/components/dashboard/ProjectsTable";
-import { kpiData } from "@/data/mockData";
-import { Building2, Users, Receipt } from "lucide-react";
+import Link from "next/link";
+import { getActiveTenants } from "@/lib/tenants";
+import { ArrowRight, Building2, Zap, Heart, Leaf } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export default function Dashboard() {
+// Ikon-mapping basert på bransje
+const industryIcons: Record<string, React.ReactNode> = {
+  Helse: <Heart size={24} className="text-petrol-500" />,
+  Energi: <Zap size={24} className="text-amber-500" />,
+};
+
+export default function LandingPage() {
+  const tenants = getActiveTenants();
+
   return (
-    <div className="min-h-screen bg-slate-50 flex">
-      {/* Sidebar */}
-      <Sidebar />
-
-      {/* Main Content */}
-      <main className="flex-1 ml-[72px] mr-[320px] p-6 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-6">
+      <div className="max-w-4xl w-full">
         {/* Header */}
-        <header className="mb-6 animate-fade-in">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1
-                className="text-2xl font-bold text-slate-800 mb-1 tracking-tight"
-                style={{ fontFamily: "var(--font-outfit)" }}
-              >
-                Verdiskapingsdetaljer
-              </h1>
-              <p className="text-sm text-slate-500">
-                Oversikt over samfunnsøkonomiske ringvirkninger
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400">Sist oppdatert:</span>
-              <span className="text-xs font-medium text-slate-600">
-                {new Date().toLocaleDateString("nb-NO", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </span>
-            </div>
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-petrol-400 to-petrol-600 mb-6">
+            <Building2 size={32} className="text-white" />
           </div>
-        </header>
-
-        {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <KpiCard
-            title="Verdiskaping"
-            subtitle="Total økonomisk verdi"
-            value={`${kpiData.verdiskaping.value} mrd NOK`}
-            change={kpiData.verdiskaping.change}
-            variant="petrol"
-            icon={<Building2 size={18} />}
-            delay={0}
-          />
-          <KpiCard
-            title="Sysselsettingseffekt"
-            subtitle="Arsverk skapt"
-            value={kpiData.sysselsetting.value.toLocaleString("nb-NO")}
-            change={kpiData.sysselsetting.change}
-            variant="sage"
-            icon={<Users size={18} />}
-            delay={0.05}
-          />
-          <KpiCard
-            title="Skattebidrag"
-            subtitle="Bidrag til fellesskapet"
-            value={`${kpiData.skattebidrag.value} mill NOK`}
-            change={kpiData.skattebidrag.change}
-            variant="indigo"
-            icon={<Receipt size={18} />}
-            delay={0.1}
-          />
+          <h1
+            className="text-4xl font-bold text-slate-800 mb-3 tracking-tight"
+            style={{ fontFamily: "var(--font-outfit)" }}
+          >
+            Ringvirkningsregnskap
+          </h1>
+          <p className="text-lg text-slate-500">
+            Velg kunde for å se deres samfunnsøkonomiske ringvirkninger
+          </p>
         </div>
 
-        {/* Sankey Diagram - Full Width */}
-        <div className="mb-6">
-          <SankeyDiagram />
+        {/* Tenant Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {tenants.map((tenant) => (
+            <Link
+              key={tenant.id}
+              href={`/kunde/${tenant.id}`}
+              className={cn(
+                "group relative bg-white rounded-2xl p-6 shadow-sm border border-slate-200",
+                "hover:shadow-lg hover:border-slate-300 hover:-translate-y-1",
+                "transition-all duration-300 ease-out"
+              )}
+            >
+              {/* Color accent */}
+              <div
+                className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
+                style={{ backgroundColor: tenant.primaryColor }}
+              />
+
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  {/* Icon & Industry */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+                      {industryIcons[tenant.industry] || (
+                        <Building2 size={24} className="text-slate-400" />
+                      )}
+                    </div>
+                    <span className="text-sm font-medium text-slate-400 uppercase tracking-wider">
+                      {tenant.industry}
+                    </span>
+                  </div>
+
+                  {/* Name */}
+                  <h2
+                    className="text-xl font-semibold text-slate-800 mb-2"
+                    style={{ fontFamily: "var(--font-outfit)" }}
+                  >
+                    {tenant.name}
+                  </h2>
+
+                  {/* Description */}
+                  <p className="text-sm text-slate-500">{tenant.description}</p>
+                </div>
+
+                {/* Arrow */}
+                <div className="ml-4 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-slate-200 transition-colors">
+                  <ArrowRight
+                    size={18}
+                    className="text-slate-400 group-hover:text-slate-600 group-hover:translate-x-0.5 transition-all"
+                  />
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
 
-        {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-          <SectorPieChart />
-          <HistoricalChart />
-        </div>
-
-        {/* Bottom Row */}
-        <div className="mb-6">
-          <ProjectsTable />
-        </div>
-      </main>
-
-      {/* Insights Panel */}
-      <div className="fixed right-0 top-0 h-screen">
-        <InsightsPanel />
+        {/* Footer */}
+        <p className="text-center text-sm text-slate-400 mt-12">
+          Visualiser verdiskaping og samfunnsøkonomiske effekter
+        </p>
       </div>
     </div>
   );

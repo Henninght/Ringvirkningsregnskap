@@ -7,11 +7,11 @@ import {
   LayoutDashboard,
   Scale,
   Map,
-  FileText,
-  Settings,
   LogOut,
   Cog,
   Lightbulb,
+  Calculator,
+  ArrowLeft,
 } from "lucide-react";
 
 interface NavItem {
@@ -20,45 +20,70 @@ interface NavItem {
   href: string;
 }
 
-const navItems: NavItem[] = [
+// NSF-spesifikke navigasjonspunkter
+const NSF_NAV_ITEMS: NavItem[] = [
   {
     icon: <LayoutDashboard size={20} />,
     label: "Dashboard",
-    href: "/",
+    href: "/kunde/nsf",
   },
   {
     icon: <Scale size={20} />,
-    label: "NSF Politikk",
-    href: "/nsf-politikk",
+    label: "Politikk",
+    href: "/kunde/nsf/politikk",
   },
   {
     icon: <Map size={20} />,
     label: "Kart",
-    href: "/kart",
+    href: "/kunde/nsf/kart",
   },
   {
     icon: <Lightbulb size={20} />,
     label: "Innsikt",
-    href: "/innsikt",
+    href: "/kunde/nsf/innsikt",
   },
   {
-    icon: <FileText size={20} />,
-    label: "Dokumenter",
-    href: "/dokumenter",
-  },
-  {
-    icon: <Settings size={20} />,
-    label: "Innstillinger",
-    href: "/innstillinger",
+    icon: <Calculator size={20} />,
+    label: "Simulator",
+    href: "/kunde/nsf/simulator",
   },
 ];
 
-export function Sidebar() {
+// Eidsiva-spesifikke navigasjonspunkter (kun dashboard foreløpig)
+const EIDSIVA_NAV_ITEMS: NavItem[] = [
+  {
+    icon: <LayoutDashboard size={20} />,
+    label: "Dashboard",
+    href: "/kunde/eidsiva",
+  },
+];
+
+// Hent navigasjonspunkter basert på tenant
+function getNavItems(tenantId?: string): NavItem[] {
+  switch (tenantId) {
+    case "nsf":
+      return NSF_NAV_ITEMS;
+    case "eidsiva":
+      return EIDSIVA_NAV_ITEMS;
+    default:
+      return [];
+  }
+}
+
+interface SidebarProps {
+  tenantId?: string;
+}
+
+export function Sidebar({ tenantId }: SidebarProps) {
   const pathname = usePathname();
+  const navItems = getNavItems(tenantId);
+
+  // Sjekk om vi er på en tenant-side
+  const isOnTenantPage = tenantId && pathname.startsWith(`/kunde/${tenantId}`);
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-[72px] bg-sidebar flex flex-col items-center py-5 z-50 border-r border-slate-800/30">
-      {/* Logo */}
+      {/* Logo - går til landingsside */}
       <div className="mb-8">
         <Link href="/" className="block">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-petrol-400 to-petrol-600 flex items-center justify-center shadow-lg hover:shadow-glow-petrol hover:scale-105 transition-all duration-200">
@@ -72,10 +97,31 @@ export function Sidebar() {
         </Link>
       </div>
 
+      {/* Tilbake til kundeoversikt (hvis på tenant-side) */}
+      {isOnTenantPage && (
+        <>
+          <Link
+            href="/"
+            className="w-10 h-10 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-sidebar-hover transition-all duration-200 mb-4 group relative"
+            title="Tilbake til oversikt"
+          >
+            <ArrowLeft size={18} />
+            <span className="absolute left-full ml-3 px-2.5 py-1.5 bg-slate-900 text-slate-100 text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-elevated z-50 border border-slate-700/50">
+              Kundeoversikt
+            </span>
+          </Link>
+          <div className="w-8 h-px bg-slate-700/50 mb-3" />
+        </>
+      )}
+
       {/* Navigation */}
       <nav className="flex-1 flex flex-col items-center gap-1.5">
         {navItems.map((item) => (
-          <NavButton key={item.href} item={item} isActive={pathname === item.href} />
+          <NavButton
+            key={item.href}
+            item={item}
+            isActive={pathname === item.href}
+          />
         ))}
       </nav>
 

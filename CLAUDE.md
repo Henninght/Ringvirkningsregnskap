@@ -59,3 +59,24 @@ Formulas (configurable via admin panel):
 ## Key Principle
 
 All calculation parameters (multipliers, tax rates, formulas) must be configurable via admin UI - never hardcoded. The `RippleConfig` type defines adjustable settings.
+
+## Critical Safety Rules
+
+### Multi-Tenant Isolation
+**NEVER delete, modify, or remove files belonging to other tenants when working on a specific tenant.**
+
+When working on tenant X:
+- Only modify files in `src/lib/X/`, `src/components/X/`, and tenant-specific pages
+- Shared files in `src/app/kunde/[tenantId]/` serve ALL tenants - changes here affect everyone
+- If unsure whether a file is shared, ASK before deleting
+- When removing tenant-specific features, verify the file path contains the tenant name
+
+Tenant-specific directories:
+- `src/lib/nsf/` - NSF only
+- `src/lib/eidsiva/` - Eidsiva only
+- `src/components/eidsiva/` - Eidsiva only
+
+Shared directories (affects ALL tenants):
+- `src/app/kunde/[tenantId]/` - Shared pages
+- `src/components/dashboard/` - Shared components
+- `src/components/layout/` - Shared layout

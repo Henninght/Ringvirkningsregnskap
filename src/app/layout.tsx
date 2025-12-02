@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ClientProviders } from "@/components/providers/ClientProviders";
 
 export const metadata: Metadata = {
-  title: "Ringvirkningsregnskap | NSF Dashboard",
+  title: "Ringvirkningsregnskap | Dashboard",
   description: "Interaktivt dashboard for samfunnsøkonomiske ringvirkninger",
 };
 
@@ -14,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="nb">
       <body className="min-h-screen bg-slate-50 antialiased">
-        {children}
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );
