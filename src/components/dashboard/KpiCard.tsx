@@ -15,6 +15,7 @@ interface KpiCardProps {
   subtitle?: string;
   className?: string;
   delay?: number;
+  changeLabel?: string; // Custom label instead of "%"
 }
 
 const variantConfig: Record<
@@ -66,6 +67,7 @@ export function KpiCard({
   subtitle,
   className,
   delay = 0,
+  changeLabel,
 }: KpiCardProps) {
   const config = variantConfig[variant];
   const isPositive = change >= 0;
@@ -123,7 +125,7 @@ export function KpiCard({
           ) : (
             <TrendingDown size={12} strokeWidth={2.5} />
           )}
-          <span>{isPositive ? "+" : ""}{change}%</span>
+          <span>{isPositive ? "+" : ""}{change}{changeLabel ? ` ${changeLabel}` : "%"}</span>
         </div>
 
         <button
