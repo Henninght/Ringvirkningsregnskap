@@ -3,6 +3,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { ResponsiveSankey } from "@nivo/sankey";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
+import { SourceTooltip } from "@/components/ui/SourceTooltip";
+import { InfoTooltip } from "@/components/ui/InfoTooltip";
+import { KILDER } from "@/lib/eidsiva/eidsivaData";
+import { EIDSIVA_DESCRIPTIONS } from "@/lib/eidsiva/eidsivaDescriptions";
 import { EIDSIVA_COLORS } from "@/types/eidsiva";
 
 // Formater tall med norsk locale og tusenskilletegn
@@ -138,7 +142,10 @@ export function EidsivaSankey({ className = "" }: EidsivaSankeyProps) {
       <CardHeader>
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
-            <CardTitle size="lg">Ringvirkninger - Verdiskaping</CardTitle>
+            <div className="flex items-center gap-2">
+              <CardTitle size="lg">Ringvirkninger - Verdiskaping</CardTitle>
+              <SourceTooltip kilde={KILDER.ringvirkninger} size="md" />
+            </div>
             <p className="text-xs text-slate-500 mt-1">
               Hvordan Eidsivas verdiskaping flyter til lokalsamfunn, næringsliv og miljø
             </p>
@@ -150,6 +157,7 @@ export function EidsivaSankey({ className = "" }: EidsivaSankeyProps) {
                 style={{ backgroundColor: SANKEY_COLORS.okonomiske }}
               />
               <span className="text-slate-500">Økonomiske</span>
+              <InfoTooltip description={EIDSIVA_DESCRIPTIONS.okonomiske} size="sm" />
             </div>
             <div className="flex items-center gap-1.5">
               <span
@@ -157,6 +165,7 @@ export function EidsivaSankey({ className = "" }: EidsivaSankeyProps) {
                 style={{ backgroundColor: SANKEY_COLORS.sosiale }}
               />
               <span className="text-slate-500">Sosiale</span>
+              <InfoTooltip description={EIDSIVA_DESCRIPTIONS.sosiale} size="sm" />
             </div>
             <div className="flex items-center gap-1.5">
               <span
@@ -164,6 +173,7 @@ export function EidsivaSankey({ className = "" }: EidsivaSankeyProps) {
                 style={{ backgroundColor: SANKEY_COLORS.baerekraftige }}
               />
               <span className="text-slate-500">Bærekraftige</span>
+              <InfoTooltip description={EIDSIVA_DESCRIPTIONS.baerekraftige} size="sm" />
             </div>
           </div>
         </div>
@@ -206,6 +216,21 @@ export function EidsivaSankey({ className = "" }: EidsivaSankeyProps) {
               motionConfig="gentle"
               nodeTooltip={({ node }) => {
                 const percentage = ((node.value / totalValue) * 100).toFixed(1);
+
+                // Map node IDs til beskrivelser
+                const nodeDescriptions: Record<string, string> = {
+                  "Direkte effekter": EIDSIVA_DESCRIPTIONS.direkteEffekt,
+                  "Indirekte effekter": EIDSIVA_DESCRIPTIONS.indirektEffekt,
+                  "Forbrukseffekter": EIDSIVA_DESCRIPTIONS.forbrukseffekt,
+                  "Økonomiske": EIDSIVA_DESCRIPTIONS.okonomiske,
+                  "Sosiale": EIDSIVA_DESCRIPTIONS.sosiale,
+                  "Bærekraftige": EIDSIVA_DESCRIPTIONS.baerekraftige,
+                  "Offentlig velferd": EIDSIVA_DESCRIPTIONS.offentligVelferd,
+                  "Leverandører": EIDSIVA_DESCRIPTIONS.leverandorer,
+                };
+
+                const description = nodeDescriptions[node.id];
+
                 return (
                   <div
                     style={{
@@ -214,6 +239,7 @@ export function EidsivaSankey({ className = "" }: EidsivaSankeyProps) {
                       borderRadius: "8px",
                       boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
                       border: "1px solid #e2e8f0",
+                      maxWidth: "280px",
                     }}
                   >
                     <div
@@ -236,6 +262,18 @@ export function EidsivaSankey({ className = "" }: EidsivaSankeyProps) {
                         {node.id}
                       </strong>
                     </div>
+                    {description && (
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          color: "#64748b",
+                          marginBottom: "8px",
+                          lineHeight: "1.4",
+                        }}
+                      >
+                        {description}
+                      </div>
+                    )}
                     <div
                       style={{
                         display: "flex",

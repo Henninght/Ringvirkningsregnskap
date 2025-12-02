@@ -8,6 +8,63 @@
 
 ---
 
+# Kildehenvisninger - Obligatorisk for alle komponenter
+
+## Krav
+Alle tall, beregninger og visualiseringer SKAL ha sporbare kildehenvisninger til rapporten.
+
+### Implementeringskrav
+1. **Alle visualiseringer** SKAL ha `SourceTooltip` i header/tittel
+2. **Alle beregningsfunksjoner** SKAL eksportere sin kilde via `getKilde()` eller `kilde` property
+3. **Alle datakonstanter** SKAL ha `kilde: KILDER.xxx` property
+
+### Tilgjengelige kilder (`KILDER` i eidsivaData.ts)
+| Kilde | Side | Seksjon | Fase |
+|-------|------|---------|------|
+| `ringvirkninger` | 5 | Ringvirkninger og multiplikatoreffekter | 2 |
+| `regionaltKart` | 7 | Verditilførsel til lokalsamfunn | 2 |
+| `velferdsbidrag` | 8 | Bidrag til offentlig velferd | 2 |
+| `ssbVelferd` | 8 | SSB-baserte velferdskostnader | 2 |
+| `forbrukseffekter` | 9 | Lokal økonomisk vekst | 3 |
+| `leverandorer` | 10 | Bidrag til norsk næringsliv | 3 |
+| `kritiskInfrastruktur` | 11 | Samfunnskritiske virksomheter | 4 |
+| `breddeidrett` | 13 | Breddeidrett og foreninger | 4 |
+| `toppidrett` | 14 | Toppidrett sponsorater | 4 |
+| `elviaFondet` | 15 | Elvia-fondet | 4 |
+| `fornybarEnergi` | 17 | Fornybar energiproduksjon | 4 |
+| `valerenga` | 18 | Enga for målene | 4 |
+| `heimdall` | 19 | Heimdall-nevroner | 4 |
+| `obio` | 20 | Karbonfangst med biokull | 4 |
+
+## Sjekkliste per komponent
+
+### Fase 2 - Verdikart
+| Komponent | SourceTooltip | Kilde brukt | Status |
+|-----------|---------------|-------------|--------|
+| `RegionMap.tsx` | ✅ | `regionaltKart` | ✅ |
+| `WelfareCalculator.tsx` | ✅ | `velferdsbidrag` | ✅ |
+| `EidsivaSankey.tsx` | ✅ | `ringvirkninger` | ✅ |
+| Verdikart page header | ✅ | `regionaltKart` | ✅ |
+
+### Fase 3 - Ringvirkningskalkulator
+| Komponent | SourceTooltip | Kilde | Status |
+|-----------|---------------|-------|--------|
+| `DirectEffectsPanel.tsx` | ⬜ | `ringvirkninger` | ⬜ |
+| `ConsumptionBreakdown.tsx` | ⬜ | `forbrukseffekter` | ⬜ |
+| `SupplierImpact.tsx` | ⬜ | `leverandorer` | ⬜ |
+| Sankey (dynamisk) | ✅ | `ringvirkninger` | ✅ |
+
+### Fase 4 - Samfunnsbidrag
+| Komponent | SourceTooltip | Kilde | Status |
+|-----------|---------------|-------|--------|
+| `CriticalInfrastructure.tsx` | ⬜ | `kritiskInfrastruktur` | ⬜ |
+| `GrassrootsSports.tsx` | ⬜ | `breddeidrett` | ⬜ |
+| `EliteSports.tsx` | ⬜ | `toppidrett` | ⬜ |
+| `EnergyProduction.tsx` | ⬜ | `fornybarEnergi` | ⬜ |
+| `SustainabilityShowcase.tsx` | ⬜ | `valerenga`, `heimdall`, `obio` | ⬜ |
+
+---
+
 # Fase 1: Grunnlag og beregninger ✅
 
 ## 1.1 Datamodell
@@ -66,6 +123,7 @@
 | Oppgave | Status |
 |---------|--------|
 | Opprett `DirectEffectsPanel.tsx` | ⬜ |
+| **Legg til SourceTooltip med `KILDER.ringvirkninger`** | ⬜ |
 | Input: Antall ansatte | ⬜ |
 | Input: Sum lønnskostnader | ⬜ |
 | Input: Investeringer | ⬜ |
@@ -75,6 +133,7 @@
 | Oppgave | Status |
 |---------|--------|
 | Opprett `ConsumptionBreakdown.tsx` | ⬜ |
+| **Legg til SourceTooltip med `KILDER.forbrukseffekter`** | ⬜ |
 | Beregn fra ansatt-input: inntekt etter skatt | ⬜ |
 | Kategorier: Sparing, Varekjøp (mat, klær, bolig, møbler) | ⬜ |
 | Kategorier: Tjenestekjøp (forsikring, helse, tele, restaurant) | ⬜ |
@@ -85,6 +144,7 @@
 | Oppgave | Status |
 |---------|--------|
 | Opprett `SupplierImpact.tsx` | ⬜ |
+| **Legg til SourceTooltip med `KILDER.leverandorer`** | ⬜ |
 | Input: Totale innkjøp MNOK | ⬜ |
 | Input: Antall leverandører | ⬜ |
 | Beregn: Ansatte i leverandørbedrifter | ⬜ |
@@ -114,6 +174,7 @@
 | Oppgave | Status |
 |---------|--------|
 | Opprett `CriticalInfrastructure.tsx` | ⬜ |
+| **Legg til SourceTooltip med `KILDER.kritiskInfrastruktur`** | ⬜ |
 | Input: Antall sykehus + ansatte | ⬜ |
 | Input: Antall brannstasjoner + ansatte | ⬜ |
 | Input: Antall militærleire + ansatte | ⬜ |
@@ -124,6 +185,7 @@
 | Oppgave | Status |
 |---------|--------|
 | Opprett `GrassrootsSports.tsx` | ⬜ |
+| **Legg til SourceTooltip med `KILDER.breddeidrett`** | ⬜ |
 | Input: Total støtte MNOK | ⬜ |
 | Fordeling på 5 regioner | ⬜ |
 | Vis: Antall lag, medlemmer, støtte per medlem | ⬜ |
@@ -133,6 +195,7 @@
 | Oppgave | Status |
 |---------|--------|
 | Opprett `EliteSports.tsx` | ⬜ |
+| **Legg til SourceTooltip med `KILDER.toppidrett`** | ⬜ |
 | Input per lag: Skiskytterforbund, Lillehammer Ishockey, HamKam, Vålerenga, Elverum Håndball, Storhamar Håndball | ⬜ |
 | Konverter til utstyr: ski, pucker, fotballer, tøysett, håndballer, sko | ⬜ |
 | Lag-logoer og bilder | ⬜ |
@@ -141,6 +204,7 @@
 | Oppgave | Status |
 |---------|--------|
 | Opprett `EnergyProduction.tsx` | ⬜ |
+| **Legg til SourceTooltip med `KILDER.fornybarEnergi`** | ⬜ |
 | Input: Vannkraft GWh (via Hafslund) | ⬜ |
 | Input: Biokraft GWh | ⬜ |
 | Konverter til: Husholdninger, innbyggere, CO2-besparelse | ⬜ |
@@ -151,6 +215,7 @@
 | Oppgave | Status |
 |---------|--------|
 | Opprett `SustainabilityShowcase.tsx` | ⬜ |
+| **Legg til SourceTooltip per prosjekt: `valerenga`, `heimdall`, `obio`** | ⬜ |
 | Vålerenga/Intility Arena: Solceller m², kWh/år, batteritimer | ⬜ |
 | Heimdall-nevroner: Kapasitetsøkning %, nye husstander, TWh | ⬜ |
 | OBIO biokull: Tonn produsert, CO2 bundet, flyturer tilsvarende | ⬜ |

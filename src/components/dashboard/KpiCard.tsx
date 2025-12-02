@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
 import { ReactNode } from "react";
+import { SourceTooltip, type KildeRef } from "@/components/ui/SourceTooltip";
 
 type KpiVariant = "petrol" | "sage" | "indigo" | "sand";
 
@@ -16,6 +17,7 @@ interface KpiCardProps {
   className?: string;
   delay?: number;
   changeLabel?: string; // Custom label instead of "%"
+  kilde?: KildeRef; // Kildehenvisning til rapport
 }
 
 const variantConfig: Record<
@@ -68,6 +70,7 @@ export function KpiCard({
   className,
   delay = 0,
   changeLabel,
+  kilde,
 }: KpiCardProps) {
   const config = variantConfig[variant];
   const isPositive = change >= 0;
@@ -75,7 +78,7 @@ export function KpiCard({
   return (
     <div
       className={cn(
-        "relative p-5 rounded-xl border shadow-card card-hover animate-slide-up overflow-hidden group",
+        "relative p-5 rounded-xl border shadow-card card-hover animate-slide-up group",
         config.bg,
         config.border,
         className
@@ -88,7 +91,10 @@ export function KpiCard({
       {/* Header with icon */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-slate-600 truncate">{title}</p>
+          <p className="text-sm font-medium text-slate-600 truncate inline-flex items-center">
+            {title}
+            {kilde && <SourceTooltip kilde={kilde} />}
+          </p>
           {subtitle && (
             <p className="text-xs text-slate-400 mt-0.5">{subtitle}</p>
           )}

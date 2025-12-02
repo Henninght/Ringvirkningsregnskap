@@ -13,11 +13,18 @@ import type { KildeRef } from "@/components/ui/SourceTooltip";
 // =============================================================================
 
 export const KILDER = {
+  // Fase 2: Verdikart
+  ringvirkninger: { side: 5, seksjon: "Ringvirkninger og multiplikatoreffekter" } as KildeRef,
   regionaltKart: { side: 7, seksjon: "Verditilførsel til lokalsamfunn" } as KildeRef,
   velferdsbidrag: { side: 8, seksjon: "Bidrag til offentlig velferd" } as KildeRef,
+  ssbVelferd: { side: 8, seksjon: "SSB-baserte velferdskostnader", beskrivelse: "Sykkelvei, barnehage, sykehjem, lærere, sykepleiere, brannkonstabler" } as KildeRef,
+
+  // Fase 3: Ringvirkningskalkulator
   forbrukseffekter: { side: 9, seksjon: "Lokal økonomisk vekst" } as KildeRef,
   leverandorer: { side: 10, seksjon: "Bidrag til norsk næringsliv" } as KildeRef,
   kritiskInfrastruktur: { side: 11, seksjon: "Samfunnskritiske virksomheter" } as KildeRef,
+
+  // Fase 4: Samfunnsbidrag
   breddeidrett: { side: 13, seksjon: "Breddeidrett og foreninger" } as KildeRef,
   toppidrett: { side: 14, seksjon: "Toppidrett sponsorater" } as KildeRef,
   elviaFondet: { side: 15, seksjon: "Elvia-fondet" } as KildeRef,

@@ -3,6 +3,8 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, TrendingUp, Building2 } from "lucide-react";
+import { SourceTooltip } from "@/components/ui/SourceTooltip";
+import { KILDER } from "@/lib/eidsiva/eidsivaData";
 
 // =============================================================================
 // REGIONSDATA MED SVG-PATHS FOR INNLANDET
@@ -191,12 +193,15 @@ export function RegionMap({
             <MapPin size={16} className="text-petrol-500" />
           </div>
           <div>
-            <h3
-              className="text-sm font-semibold text-slate-700"
-              style={{ fontFamily: "var(--font-outfit)" }}
-            >
-              Regionalt verdikart
-            </h3>
+            <div className="flex items-center gap-1.5">
+              <h3
+                className="text-sm font-semibold text-slate-700"
+                style={{ fontFamily: "var(--font-outfit)" }}
+              >
+                Regionalt verdikart
+              </h3>
+              <SourceTooltip kilde={KILDER.regionaltKart} />
+            </div>
             <p className="text-xs text-slate-400">Innlandet + Oslo</p>
           </div>
         </div>

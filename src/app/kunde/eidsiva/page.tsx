@@ -11,7 +11,9 @@ import { Zap, Leaf, Heart } from "lucide-react";
 
 // Eidsiva-spesifikke komponenter
 import { EidsivaSankey } from "@/components/eidsiva/EidsivaSankey";
-import { EIDSIVA_NOKKELTALL } from "@/lib/eidsiva/eidsivaData";
+import { EIDSIVA_NOKKELTALL, KILDER } from "@/lib/eidsiva/eidsivaData";
+import { InfoTooltip } from "@/components/ui/InfoTooltip";
+import { EIDSIVA_DESCRIPTIONS } from "@/lib/eidsiva/eidsivaDescriptions";
 
 export default function EidsivaDashboard() {
   // Eidsiva-spesifikke KPI-verdier
@@ -41,12 +43,19 @@ export default function EidsivaDashboard() {
         <header className="mb-6 animate-fade-in">
           <div className="flex items-center justify-between">
             <div>
-              <h1
-                className="text-2xl font-bold text-slate-800 mb-1 tracking-tight"
-                style={{ fontFamily: "var(--font-outfit)" }}
-              >
-                Ringvirkningsregnskap
-              </h1>
+              <div className="flex items-center gap-2">
+                <h1
+                  className="text-2xl font-bold text-slate-800 mb-1 tracking-tight"
+                  style={{ fontFamily: "var(--font-outfit)" }}
+                >
+                  Ringvirkningsregnskap
+                </h1>
+                <InfoTooltip
+                  description="Viser samlet effekt på økonomi, mennesker og miljø. (s.5)"
+                  size="md"
+                  variant="petrol"
+                />
+              </div>
               <p className="text-sm text-slate-500">
                 Oversikt over samfunnsøkonomiske ringvirkninger for Eidsiva Energi
               </p>
@@ -65,36 +74,50 @@ export default function EidsivaDashboard() {
         </header>
 
         {/* KPI Cards - Eidsiva-spesifikke */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <KpiCard
-            title="Fornybar vannkraft"
-            subtitle={eidsivaKpis.vannkraft.subtitle}
-            value={eidsivaKpis.vannkraft.value}
-            change={EIDSIVA_NOKKELTALL.vannkraft.andelAvNorge}
-            changeLabel="av Norges produksjon"
-            variant="petrol"
-            icon={<Zap size={18} />}
-            delay={0}
-          />
-          <KpiCard
-            title="Biokraft & fjernvarme"
-            subtitle={eidsivaKpis.biokraft.subtitle}
-            value={eidsivaKpis.biokraft.value}
-            change={EIDSIVA_NOKKELTALL.biokraft.fornybartBrensel}
-            changeLabel="fornybart"
-            variant="sage"
-            icon={<Leaf size={18} />}
-            delay={0.05}
-          />
-          <KpiCard
-            title="Strømforsyning"
-            subtitle={eidsivaKpis.co2.subtitle}
-            value={eidsivaKpis.co2.value}
-            change={0}
-            variant="indigo"
-            icon={<Heart size={18} />}
-            delay={0.1}
-          />
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-3">
+            <h2 className="text-sm font-medium text-slate-500 uppercase tracking-wide">
+              Fornybar energiproduksjon
+            </h2>
+            <InfoTooltip
+              description={EIDSIVA_DESCRIPTIONS.vannkraft}
+              size="sm"
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <KpiCard
+              title="Fornybar vannkraft"
+              subtitle={eidsivaKpis.vannkraft.subtitle}
+              value={eidsivaKpis.vannkraft.value}
+              change={EIDSIVA_NOKKELTALL.vannkraft.andelAvNorge}
+              changeLabel="av Norges produksjon"
+              variant="petrol"
+              icon={<Zap size={18} />}
+              delay={0}
+              kilde={KILDER.fornybarEnergi}
+            />
+            <KpiCard
+              title="Biokraft & fjernvarme"
+              subtitle={eidsivaKpis.biokraft.subtitle}
+              value={eidsivaKpis.biokraft.value}
+              change={EIDSIVA_NOKKELTALL.biokraft.fornybartBrensel}
+              changeLabel="fornybart"
+              variant="sage"
+              icon={<Leaf size={18} />}
+              delay={0.05}
+              kilde={KILDER.fornybarEnergi}
+            />
+            <KpiCard
+              title="Strømforsyning"
+              subtitle={eidsivaKpis.co2.subtitle}
+              value={eidsivaKpis.co2.value}
+              change={0}
+              variant="indigo"
+              icon={<Heart size={18} />}
+              delay={0.1}
+              kilde={KILDER.fornybarEnergi}
+            />
+          </div>
         </div>
 
         {/* Sankey Diagram - Eidsiva-spesifikk */}

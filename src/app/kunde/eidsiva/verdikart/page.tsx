@@ -28,6 +28,8 @@ import {
   Building2,
   Mountain,
 } from "lucide-react";
+import { InfoTooltip } from "@/components/ui/InfoTooltip";
+import { EIDSIVA_DESCRIPTIONS } from "@/lib/eidsiva/eidsivaDescriptions";
 
 // =============================================================================
 // TABS
@@ -447,12 +449,19 @@ export default function VerdikartPage() {
         <header className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1
-                className="text-2xl font-bold text-slate-800 mb-1 tracking-tight"
-                style={{ fontFamily: "var(--font-outfit)" }}
-              >
-                Regionalt Verdikart
-              </h1>
+              <div className="flex items-center gap-2">
+                <h1
+                  className="text-2xl font-bold text-slate-800 mb-1 tracking-tight"
+                  style={{ fontFamily: "var(--font-outfit)" }}
+                >
+                  Regionalt Verdikart
+                </h1>
+                <InfoTooltip
+                  description={EIDSIVA_DESCRIPTIONS.verditilforsel}
+                  size="md"
+                  variant="petrol"
+                />
+              </div>
               <p className="text-sm text-slate-500">
                 Eidsiva Energis verdiskaping fordelt på Innlandet og Oslo
               </p>
@@ -744,6 +753,11 @@ export default function VerdikartPage() {
                     <BarChart3 size={16} className="text-sage-600" />
                   </div>
                   I andre ord...
+                  <InfoTooltip
+                    description={EIDSIVA_DESCRIPTIONS.offentligVelferd}
+                    size="sm"
+                    variant="sage"
+                  />
                 </CardTitle>
               </CardHeader>
               <CardContent>

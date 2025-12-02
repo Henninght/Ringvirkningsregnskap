@@ -10,7 +10,7 @@ import {
   useViewMode,
 } from "@/contexts/ViewModeContext";
 import {
-  Scale,
+  Wrench,
   ArrowLeft,
   Calculator,
   Users,
@@ -133,17 +133,17 @@ function NsfPolitikkContent() {
                 <div className="h-6 w-px bg-slate-200" />
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-petrol-400 to-petrol-600 flex items-center justify-center">
-                    <Scale size={20} className="text-white" />
+                    <Wrench size={20} className="text-white" />
                   </div>
                   <div>
                     <h1
                       className="text-xl font-semibold text-slate-800"
                       style={{ fontFamily: "var(--font-outfit)" }}
                     >
-                      NSF Politikkverktøy
+                      NSF Verktøy
                     </h1>
                     <p className="text-sm text-slate-500">
-                      Bygg argumenter med kildehenvisninger
+                      Beregninger og analyser for politisk argumentasjon
                     </p>
                   </div>
                 </div>
