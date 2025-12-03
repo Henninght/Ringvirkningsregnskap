@@ -61,6 +61,11 @@ const EIDSIVA_NAV_ITEMS: NavItem[] = [
     label: "Verdikart",
     href: "/kunde/eidsiva/verdikart",
   },
+  {
+    icon: <Lightbulb size={20} />,
+    label: "Samfunn",
+    href: "/kunde/eidsiva/samfunnspavirkning",
+  },
 ];
 
 // Hent navigasjonspunkter basert på tenant

@@ -51,4 +51,6 @@ export interface Insight {
   id: string;
   title: string;
   content: string;
+  category?: string;
+  priority?: number;
 }

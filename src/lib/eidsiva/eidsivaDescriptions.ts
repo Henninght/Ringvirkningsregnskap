@@ -4,6 +4,9 @@
  */
 
 export const EIDSIVA_DESCRIPTIONS = {
+  // Side 5 - Ringvirkninger
+  ringvirkninger: "Tre effektnivåer: direkte, indirekte og forbrukseffekter. (s.5)",
+
   // Side 5 - Tre effekttyper
   direkteEffekt: "Lønn, investeringer, drift, skatt og utbytte. (s.5)",
   indirektEffekt: "Verdiskaping hos leverandører. (s.5)",
