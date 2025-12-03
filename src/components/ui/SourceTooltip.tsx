@@ -36,7 +36,7 @@ export function SourceTooltip({ kilde, className, size = "sm" }: SourceTooltipPr
         className={cn(
           "flex items-center justify-center rounded-full cursor-help transition-colors",
           size === "sm" ? "w-4 h-4" : "w-5 h-5",
-          "bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600"
+          "bg-slate-700/60 text-slate-300 hover:bg-slate-600/80 hover:text-white border border-slate-600/50"
         )}
       >
         <Info size={iconSize} />
@@ -46,23 +46,23 @@ export function SourceTooltip({ kilde, className, size = "sm" }: SourceTooltipPr
       <span
         className={cn(
           "absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2",
-          "px-3 py-2 rounded-lg shadow-lg",
-          "bg-slate-800 text-white text-xs",
+          "px-3 py-2 rounded-lg shadow-xl",
+          "bg-slate-900 border border-slate-700 text-xs",
           "transition-all duration-150",
           "whitespace-nowrap",
           isVisible ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
         {/* Arrow */}
-        <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800" />
+        <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
 
-        <span className="flex items-center gap-1.5 font-medium">
-          <span className="text-slate-300">📄</span>
+        <span className="flex items-center gap-1.5 font-medium text-white">
+          <span>📄</span>
           Rapport s. {kilde.side}
         </span>
 
         {kilde.seksjon && (
-          <span className="block text-slate-300 mt-0.5">
+          <span className="block text-slate-200 mt-0.5">
             {kilde.seksjon}
           </span>
         )}

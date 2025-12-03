@@ -32,9 +32,9 @@ export function InfoTooltip({
   const iconSize = size === "sm" ? 13 : 15;
 
   const variantStyles = {
-    default: "bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600",
-    petrol: "bg-petrol-50 text-petrol-400 hover:bg-petrol-100 hover:text-petrol-600",
-    sage: "bg-sage-50 text-sage-400 hover:bg-sage-100 hover:text-sage-600",
+    default: "bg-slate-700/60 text-slate-300 hover:bg-slate-600/80 hover:text-white border border-slate-600/50",
+    petrol: "bg-petrol-500/20 text-petrol-300 hover:bg-petrol-500/30 hover:text-petrol-200 border border-petrol-500/30",
+    sage: "bg-sage-500/20 text-sage-300 hover:bg-sage-500/30 hover:text-sage-200 border border-sage-500/30",
   };
 
   return (
@@ -58,7 +58,7 @@ export function InfoTooltip({
         className={cn(
           "absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2.5",
           "px-3 py-2.5 rounded-xl shadow-xl",
-          "bg-slate-900 text-white text-xs",
+          "bg-slate-900 border border-slate-700 text-xs",
           "transition-all duration-200 ease-out",
           "max-w-[240px]",
           isVisible
