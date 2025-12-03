@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, ReactNode, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
 interface TooltipProps {
@@ -19,10 +20,47 @@ export function Tooltip({
   className,
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const updatePosition = () => {
+    if (triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      let top = 0;
+      let left = 0;
+
+      switch (position) {
+        case "top":
+          top = rect.top - 8;
+          left = rect.left + rect.width / 2;
+          break;
+        case "bottom":
+          top = rect.bottom + 8;
+          left = rect.left + rect.width / 2;
+          break;
+        case "left":
+          top = rect.top + rect.height / 2;
+          left = rect.left - 8;
+          break;
+        case "right":
+          top = rect.top + rect.height / 2;
+          left = rect.right + 8;
+          break;
+      }
+
+      setCoords({ top, left });
+    }
+  };
 
   const handleMouseEnter = () => {
     timeoutRef.current = setTimeout(() => {
+      updatePosition();
       setIsVisible(true);
     }, delay);
   };
@@ -42,47 +80,112 @@ export function Tooltip({
     };
   }, []);
 
-  const positionClasses = {
-    top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
-    bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
-    left: "right-full top-1/2 -translate-y-1/2 mr-2",
-    right: "left-full top-1/2 -translate-y-1/2 ml-2",
+  // Position transform based on tooltip position
+  const getTransform = () => {
+    switch (position) {
+      case "top":
+        return "translate(-50%, -100%)";
+      case "bottom":
+        return "translate(-50%, 0)";
+      case "left":
+        return "translate(-100%, -50%)";
+      case "right":
+        return "translate(0, -50%)";
+    }
   };
 
-  const arrowClasses = {
-    top: "top-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-slate-800",
-    bottom: "bottom-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-slate-800",
-    left: "left-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-slate-800",
-    right: "right-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-slate-800",
+  // Arrow position styles
+  const getArrowStyles = (): React.CSSProperties => {
+    const base: React.CSSProperties = {
+      position: "absolute",
+      width: 0,
+      height: 0,
+      borderLeft: "6px solid transparent",
+      borderRight: "6px solid transparent",
+      borderTop: "6px solid transparent",
+      borderBottom: "6px solid transparent",
+    };
+
+    switch (position) {
+      case "top":
+        return {
+          ...base,
+          bottom: "-6px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          borderTopColor: "#020617",
+          borderBottomColor: "transparent",
+        };
+      case "bottom":
+        return {
+          ...base,
+          top: "-6px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          borderBottomColor: "#020617",
+          borderTopColor: "transparent",
+        };
+      case "left":
+        return {
+          ...base,
+          right: "-6px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          borderLeftColor: "#020617",
+          borderRightColor: "transparent",
+        };
+      case "right":
+        return {
+          ...base,
+          left: "-6px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          borderRightColor: "#020617",
+          borderLeftColor: "transparent",
+        };
+    }
+  };
+
+  const tooltipStyles: React.CSSProperties = {
+    position: "fixed",
+    zIndex: 99999,
+    transform: getTransform(),
+    padding: "10px 14px",
+    borderRadius: "10px",
+    backgroundColor: "#020617",
+    border: "1px solid #475569",
+    boxShadow: "0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)",
+    pointerEvents: "none",
+    maxWidth: "280px",
+    fontSize: "12px",
+    color: "#f1f5f9",
+    fontFamily: "system-ui, -apple-system, sans-serif",
+    lineHeight: 1.5,
   };
 
   return (
     <div
-      className="relative inline-block"
+      ref={triggerRef}
+      className={cn("relative inline-block", className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onFocus={handleMouseEnter}
       onBlur={handleMouseLeave}
     >
       {children}
-      {isVisible && (
+      {mounted && isVisible && createPortal(
         <div
-          className={cn(
-            "absolute z-50 px-3 py-2.5 bg-slate-800 text-white text-xs rounded-lg shadow-lg max-w-xs",
-            "animate-fade-in",
-            positionClasses[position],
-            className
-          )}
+          style={{
+            ...tooltipStyles,
+            top: coords.top,
+            left: coords.left,
+          }}
           role="tooltip"
         >
+          <div style={getArrowStyles()} />
           {content}
-          <span
-            className={cn(
-              "absolute border-4",
-              arrowClasses[position]
-            )}
-          />
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
@@ -98,7 +201,29 @@ export function HelpTooltip({ content, position = "top" }: HelpTooltipProps) {
     <Tooltip content={content} position={position}>
       <button
         type="button"
-        className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-slate-200 text-slate-500 text-xs hover:bg-slate-300 transition-colors"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "16px",
+          height: "16px",
+          borderRadius: "50%",
+          backgroundColor: "rgba(71, 85, 105, 0.7)",
+          color: "#cbd5e1",
+          border: "1px solid rgba(100, 116, 139, 0.5)",
+          fontSize: "11px",
+          fontWeight: 600,
+          cursor: "help",
+          transition: "all 0.15s ease",
+        }}
+        onMouseOver={(e) => {
+          e.currentTarget.style.backgroundColor = "rgba(100, 116, 139, 0.8)";
+          e.currentTarget.style.color = "#ffffff";
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.backgroundColor = "rgba(71, 85, 105, 0.7)";
+          e.currentTarget.style.color = "#cbd5e1";
+        }}
         aria-label="Hjelp"
       >
         ?
